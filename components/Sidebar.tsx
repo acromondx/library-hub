@@ -1,6 +1,14 @@
 "use client";
 import Link from "next/link";
-import { Bell, Home, LineChart, Package2, ShoppingCart } from "lucide-react";
+import {
+  Bell,
+  Home,
+  LineChart,
+  Package,
+  Package2,
+  ShoppingCart,
+  Users,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -34,8 +42,8 @@ Analyticsn
 const navigation = [
   { name: "Dashboard", icon: Home, href: "/" },
   { name: "Orders", icon: ShoppingCart, href: "/orders" },
-  { name: "Products", icon: LineChart, href: "/products" },
-  { name: "Customers", icon: LineChart, href: "/customers" },
+  { name: "Products", icon: Package, href: "/products" },
+  { name: "Customers", icon: Users, href: "/customers" },
   { name: "Analytics", icon: LineChart, href: "/analytics" },
 ];
 
@@ -66,8 +74,8 @@ export function Sidebar() {
                   key={index}
                   href={item.href}
                   className={cn(
-                    item.href.includes(String(segment))
-                      ? "flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
+                    isActive
+                      ? "flex items-center gap-3 rounded-lg bg-primary/[0.2] px-3 py-2 text-primary transition-all hover:text-primary"
                       : "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
                   )}
                 >
