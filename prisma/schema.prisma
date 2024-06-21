@@ -15,6 +15,7 @@ model User {
   role         UserRole      @default(USER)
   loans        Loan[]        @relation("UserLoans")
   reservations Reservation[]
+  requests     Request[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
 }
@@ -79,7 +80,32 @@ model Reservation {
   book Book @relation(fields: [bookId], references: [id])
 }
 
+model Request {
+  id          Int           @id @default(autoincrement())
+  userId      Int
+  type        RequestType
+  description String
+  status      RequestStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
 enum UserRole {
   USER
   ADMIN
+}
+
+enum RequestType {
+  BOOK_SUGGESTION
+  COMPLAINT
+  OTHER
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  DECLINED
+  ADDRESSED
 }
