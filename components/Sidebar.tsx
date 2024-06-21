@@ -41,9 +41,9 @@ Analyticsn
 
 const navigation = [
   { name: "Dashboard", icon: Home, href: "/" },
-  { name: "Orders", icon: ShoppingCart, href: "/orders" },
-  { name: "Products", icon: Package, href: "/products" },
-  { name: "Customers", icon: Users, href: "/customers" },
+  { name: "Books", icon: ShoppingCart, href: "/books" },
+  { name: "Requests", icon: Package, href: "/requests" },
+  { name: "Users", icon: Users, href: "/users" },
   { name: "Analytics", icon: LineChart, href: "/analytics" },
 ];
 
@@ -52,11 +52,11 @@ export function Sidebar() {
 
   return (
     <div className="hidden border-r bg-muted/40 md:block">
-      <div className="flex h-full max-h-screen flex-col gap-2">
+      <div className="sticky top-0 flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
             <Package2 className="h-6 w-6" />
-            <span className="">Acme Inc</span>
+            <span className="">Library</span>
           </Link>
           <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
             <Bell className="h-4 w-4" />
