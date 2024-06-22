@@ -2,11 +2,11 @@
 import Link from "next/link";
 import {
   Bell,
-  Home,
+  LayoutDashboardIcon,
+  LibraryBigIcon,
   LineChart,
   Package,
   Package2,
-  ShoppingCart,
   Users,
 } from "lucide-react";
 
@@ -31,20 +31,20 @@ Analyticsn
 </Link> */
 }
 
-// Home,
+// LayoutDashboardIcon,
 // LineChart,
 // Menu,
 // Package,
 // Package2,
-// ShoppingCart,
+// LibraryBigIcon,
 // Users,
 
 const navigation = [
-  { name: "Dashboard", icon: Home, href: "/" },
-  { name: "Books", icon: ShoppingCart, href: "/books" },
-  { name: "Requests", icon: Package, href: "/requests" },
-  { name: "Users", icon: Users, href: "/users" },
-  { name: "Analytics", icon: LineChart, href: "/analytics" },
+  { name: "Overview", icon: LayoutDashboardIcon, href: "/admin/overview" },
+  { name: "Books", icon: LibraryBigIcon, href: "/admin/books" },
+  { name: "Requests", icon: Package, href: "/admin/requests" },
+  { name: "Users", icon: Users, href: "/admin/users" },
+  { name: "Analytics", icon: LineChart, href: "/admin/analytics" },
 ];
 
 export function Sidebar() {
@@ -105,22 +105,4 @@ export function Sidebar() {
       </div>
     </div>
   );
-}
-
-{
-  /* <Link
-href="#"
-className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
->
-<Package className="h-4 w-4" />
-Products{" "}
-</Link>
-
-<Link
-href="#"
-className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
->
-<Users className="h-4 w-4" />
-Customers
-</Link> */
 }
