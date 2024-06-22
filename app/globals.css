@@ -57,3 +57,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+/*Lucide ico */
+.lucide {
+  stroke-width: 1.8px;
+}
