@@ -1,17 +1,50 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useFormState, useFormStatus } from "react-dom";
-import { Book } from "@prisma/client";
+import { Author, Book, Category } from "@prisma/client";
 import { addBook, updateBook } from "../_actions/book";
+import { ChangeEvent, useEffect, useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
-export function AddOrUpdateBookForm({ book }: { book?: Book | null }) {
+export function AddOrUpdateBookForm({
+  book,
+  authors,
+  categories,
+}: {
+  book?: Book | null;
+  authors: Author[];
+  categories: Category[];
+}) {
   const [error, action] = useFormState(
     book == null ? addBook : updateBook.bind(null, book.id),
     {},
   );
+
+  const [currentSelectedImage, setCurrentSelectedImage] = useState<File | null>(
+    null,
+  );
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setCurrentSelectedImage(e.target.files[0]);
+    }
+  };
+
+  useEffect(() => {
+    if (currentSelectedImage) {
+      const imageUrl = URL.createObjectURL(currentSelectedImage);
+      setImagePreviewUrl(imageUrl);
+
+      return () => URL.revokeObjectURL(imageUrl);
+    } else if (book?.pictureUrl) {
+      setImagePreviewUrl(book.pictureUrl);
+    }
+  }, [currentSelectedImage, book?.pictureUrl]);
 
   return (
     <form action={action} className="space-y-8">
@@ -31,10 +64,11 @@ export function AddOrUpdateBookForm({ book }: { book?: Book | null }) {
         <div className="space-y-3">
           {" "}
           <Label htmlFor="description">Description</Label>
-          <Input
-            type="text"
+          <Textarea
+            // type="text"
             id="description"
             name="description"
+            maxLength={680}
             required
             defaultValue={book?.description || ""}
           />
@@ -58,7 +92,7 @@ export function AddOrUpdateBookForm({ book }: { book?: Book | null }) {
         <div className="space-y-3">
           <Label htmlFor="copies">Copies</Label>
           <Input
-            type="text"
+            type="number"
             id="copies"
             name="copies"
             required
@@ -94,12 +128,16 @@ export function AddOrUpdateBookForm({ book }: { book?: Book | null }) {
             id="image"
             name="image"
             required={book == null}
-            // defaultValue={book?.title || ""}
+            onChange={handleFileChange}
           />
           {error.image && <div className="text-destructive">{error.image}</div>}
         </div>
       </div>
-      <img src={book?.pictureUrl} height={180} width={180} />
+      {imagePreviewUrl ? (
+        <img src={imagePreviewUrl} height={180} width={180} alt="" />
+      ) : (
+        <img src={book?.pictureUrl} height={180} width={180} alt="" />
+      )}
 
       <SubmitButton />
     </form>

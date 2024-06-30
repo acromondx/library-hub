@@ -39,6 +39,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Edit3, EyeIcon, Search, Trash2 } from "lucide-react";
 import { Author, Book, Category } from "@prisma/client";
 import Link from "next/link";
+import { deleteBookById } from "../_actions/book";
 
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -145,10 +146,12 @@ export const columns: ColumnDef<Book>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <span>
-                <EyeIcon className="mr-2 h-4 w-4" />
-              </span>
-              View
+              <Link href={`/admin/books/${book.id}/view`}>
+                <span className="inline-flex">
+                  <EyeIcon className="mr-2 h-4 w-4" />
+                  View{" "}
+                </span>
+              </Link>
             </DropdownMenuItem>
 
             <DropdownMenuItem>
@@ -159,7 +162,12 @@ export const columns: ColumnDef<Book>[] = [
                 </span>
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-destructive">
+            <DropdownMenuItem
+              className="text-destructive"
+              onClick={async () => {
+                await deleteBookById(book.id);
+              }}
+            >
               <span>
                 <Trash2 className="mr-2 h-4 w-4" />
               </span>

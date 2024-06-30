@@ -12,17 +12,17 @@ export function TabsNavigation() {
   const tabs = [
     {
       title: "Books",
-      href: `/admin/books`,
+      href: "/admin/books",
       isActive: segment === null || segment === "new",
     },
     {
       title: "Categories",
-      href: `/admin/books/categories/`,
+      href: "/admin/books/categories/",
       isActive: segment === "categories",
     },
     {
       title: "Authors",
-      href: `/admin/books/authors`,
+      href: "/admin/books/authors",
       isActive: segment === "authors",
     },
   ];
