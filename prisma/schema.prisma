@@ -23,11 +23,13 @@ model User {
 model Book {
   id           Int           @id @default(autoincrement())
   title        String
+  description  String        @db.Text
   isbn         String        @unique
   publishedAt  DateTime
   authorId     Int
   categoryId   Int
   copies       Int
+  pictureUrl   String
   loans        Loan[]        @relation("BookLoans")
   reservations Reservation[]
   createdAt    DateTime      @default(now())
