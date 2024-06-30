@@ -1,10 +1,36 @@
-import db from "@/db/db";
+import { DashboardHeader } from "../../_components/DashboardHeader";
+import { PlusCircleIcon } from "lucide-react";
+import { LinkButton } from "@/components/buttons";
+import { CategoryOrAuthorCard } from "../../_components/CategoryOrAuthorCard";
+import { getAllAuthors } from "../../_actions/author";
 
-export default async function Dashboard() {
-  const categories = await db.category.findMany({ take: 3 });
+export default async function NewProductPage() {
+  const authors = await getAllAuthors();
+
   return (
-    <div className="bg-yellow-400">
-      <p>{JSON.stringify(categories)}</p>
-    </div>
+    <>
+      <DashboardHeader title="Authors">
+        <LinkButton
+          title="Add author"
+          href="/admin/books/authors/new"
+          icon={PlusCircleIcon}
+        />
+      </DashboardHeader>
+
+      <div className="grid grid-cols-1 gap-6 pb-8 pt-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        {authors && authors.length > 0 ? (
+          authors.map((author) => (
+            <CategoryOrAuthorCard
+              key={author.id}
+              item={author}
+              type="author"
+              books={author.books.length}
+            />
+          ))
+        ) : (
+          <p>Category is empty</p>
+        )}
+      </div>
+    </>
   );
 }
