@@ -13,7 +13,7 @@ export function BackButton({
 }) {
   return (
     <Link href={href}>
-      <Button variant={ghost ? "ghost" : "outline"} size="sm">
+      <Button className="mb-4" variant={ghost ? "ghost" : "outline"} size="sm">
         <ArrowLeftIcon className="mr-2 h-3 w-3 text-primary" />
         {text ?? "Back"}
       </Button>
