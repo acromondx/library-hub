@@ -11,7 +11,7 @@ interface ViewBookPageProps {
 
 export default async function ViewBookPage({ params }: ViewBookPageProps) {
   const [book, categories, authors] = await Promise.all([
-    getBookById({ id: Number(params.id) }),
+    getBookById({ id: params.id }),
     getAllCategories(),
     getAllAuthors(),
   ]);

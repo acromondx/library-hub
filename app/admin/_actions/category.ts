@@ -2,67 +2,61 @@
 
 import db from "@/db/db";
 import { z } from "zod";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { AddCategorySchema } from "@/lib/Validations/category";
+import { Errors } from "@/lib/errors";
 
-const addSchema = z.object({
-  name: z.string().min(1),
-});
+export async function addCategory(rawInput: z.infer<typeof AddCategorySchema>) {
+  // const result = AddCategorySchema.safeParse(
+  //   Object.fromEntries(formData.entries()),
+  // );
+  const input = AddCategorySchema.parse(rawInput);
 
-export async function addCategory(prevState: unknown, formData: FormData) {
-  const result = addSchema.safeParse(Object.fromEntries(formData.entries()));
-  if (result.success === false) {
-    return result.error.formErrors.fieldErrors;
+  try {
+    await db.category.create({
+      data: {
+        name: input.name,
+      },
+    });
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        throw new Error(Errors.itemAlreadyExists);
+      }
+    }
+    throw error;
   }
-
-  const data = result.data;
-  console.log(data);
-
-  await db.category.create({
-    data: {
-      name: data.name,
-    },
-  });
 
   revalidatePath("/");
   revalidatePath("/products");
   redirect("/admin/books/categories");
 }
 
-const editSchema = addSchema.extend({});
+const editSchema = AddCategorySchema.extend({});
 
 export async function updateCategory(
-  id: number,
-  prevState: unknown,
-  formData: FormData,
+  id: string,
+  rawInput: z.infer<typeof AddCategorySchema>,
 ) {
-  const result = editSchema.safeParse(Object.fromEntries(formData.entries()));
-  if (result.success === false) {
-    return result.error.formErrors.fieldErrors;
-  }
-
-  const data = result.data;
+  const input = AddCategorySchema.parse(rawInput);
   const category = await db.category.findUnique({ where: { id } });
 
-  if (category == null) return notFound();
+  if (category) {
+    await db.category.update({
+      where: { id },
+      data: {
+        name: input.name,
+      },
+    });
+  }
 
-  await db.category.update({
-    where: { id },
-    data: {
-      name: data.name,
-    },
-  });
-
-  revalidatePath("/admin/books/categories");
-  redirect("/admin/books/categories");
+  revalidatePath("/admin/books/categorys");
+  redirect("/admin/books/categorys");
 }
 
-export async function getAllCategories() {
-  const categories = await db.category.findMany({ include: { books: true } });
-  return categories;
-}
-
-export async function getCategoryById({ id }: { id: number }) {
+export async function getCategoryById({ id }: { id: string }) {
   console.log("Fetching category with ID:", id);
 
   const category = await db.category.findFirst({
@@ -75,11 +69,32 @@ export async function getCategoryById({ id }: { id: number }) {
   return category;
 }
 
-export async function deleteCategoryById({ id }: { id: number }) {
-  const category = await db.category.delete({ where: { id } });
+export async function getAllCategories() {
+  const categories = await db.category.findMany({ include: { books: true } });
 
-  if (category == null) return notFound();
+  return categories;
+}
 
-  revalidatePath("/");
-  revalidatePath("/products");
+export async function deleteCategoryById({ id }: { id: string }) {
+  try {
+    await db.category.delete({
+      where: { id },
+    });
+    return true;
+  } catch (error) {
+    if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === "P2003") {
+        console.error(
+          "Cannot delete category. It is referenced by a book:",
+          error,
+        );
+        throw new Error((error as Error).message);
+      }
+    } else {
+      console.error("Error deleting category:", error);
+      throw new Error((error as Error).message);
+    }
+  }
+
+  revalidatePath("/admin/books/categories");
 }

@@ -12,7 +12,7 @@ interface EditCategoryPageProps {
 export default async function EditCategoryPage({
   params,
 }: EditCategoryPageProps) {
-  const category = await getCategoryById({ id: Number(params.id) });
+  const category = await getCategoryById({ id: params.id });
 
   return (
     <div className="px-2">

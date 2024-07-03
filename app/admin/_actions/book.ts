@@ -1,41 +1,19 @@
 "use server";
 
 import db from "@/db/db";
-import { z } from "zod";
 import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { imageDb } from "@/lib/firebase";
+import {
+  AddBookSchema,
+  ImageSchema,
+  UpdateBookSchema,
+} from "@/lib/validations";
+import { z } from "zod";
 
-const imageSchema = z
-  .instanceof(File, { message: "Required" })
-  .refine((file) => file.size === 0 || file.type.startsWith("image/"));
-
-const addSchema = z.object({
-  title: z.string().min(1, { message: "Title is required" }),
-  isbn: z
-    .string()
-    .min(5, { message: "ISBN must be at least 5 characters long" }),
-  publishedAt: z.coerce.date().transform((date) => new Date(date)),
-  copies: z.coerce
-    .number()
-    .int()
-    .min(1, { message: "At least one copy is required" }),
-  description: z
-    .string()
-    .min(10, { message: "Description must be at least 10 characters long" })
-    .max(680, { message: "Description too long" }),
-
-  image: imageSchema,
-});
-
-export async function addBook(prevState: unknown, formData: FormData) {
-  const result = addSchema.safeParse(Object.fromEntries(formData.entries()));
-  if (!result.success) {
-    return result.error.formErrors.fieldErrors;
-  }
-
-  const data = result.data;
+export async function addBook(rawData: z.infer<typeof AddBookSchema>) {
+  const data = AddBookSchema.parse(rawData);
 
   try {
     const fileRef = ref(imageDb, `libraryhub/${crypto.randomUUID()}`);
@@ -49,8 +27,8 @@ export async function addBook(prevState: unknown, formData: FormData) {
         copies: data.copies,
         isbn: data.isbn,
         publishedAt: data.publishedAt,
-        authorId: 1,
-        categoryId: 62,
+        authorId: data.authorId,
+        categoryId: data.categoryId,
         pictureUrl: pictureUrl,
       },
     });
@@ -61,25 +39,28 @@ export async function addBook(prevState: unknown, formData: FormData) {
     console.error("Error adding book:", error);
     throw new Error((error as Error).message);
   }
+
+  // } catch (error) {
+  //   if (
+  //     error instanceof PrismaClientKnownRequestError &&
+  //     error.code === "P2002"
+  //   ) {
+  //     if (error.meta?.target === "Book_isbn_key") {
+  //       console.error("ISBN already exists:", error);
+  //       return { isbn: "A book with this ISBN already exists." };
+  //     }
+  //   } else {
+  //     console.error("Error adding book:", error);
+  //     throw new Error((error as Error).message);
+  //   }
+  // }
 }
 
-const editSchema = addSchema.extend({
-  image: imageSchema.optional(),
-  // authorId: z.number().int().min(1, { message: "Author is required" }),
-  // categoryId: z.number().int().min(1, { message: "Category is required" }),
-});
-
 export async function updateBook(
-  id: number,
-  prevState: unknown,
-  formData: FormData,
+  id: string,
+  rawData: z.infer<typeof UpdateBookSchema>,
 ) {
-  const result = editSchema.safeParse(Object.fromEntries(formData.entries()));
-  if (result.success === false) {
-    return result.error.formErrors.fieldErrors;
-  }
-
-  const data = result.data;
+  const data = UpdateBookSchema.parse(rawData);
 
   console.log("zod ++++++++++");
   console.log(data);
@@ -94,8 +75,8 @@ export async function updateBook(
     description: data.description,
     publishedAt: data.publishedAt,
     isbn: data.isbn,
-    authorId: 1,
-    categoryId: 72,
+    authorId: data.authorId,
+    categoryId: data.categoryId,
   };
 
   if (data.image?.type.startsWith("image/")) {
@@ -125,7 +106,7 @@ export async function getAllBooks() {
   return books;
 }
 
-export async function getBookById({ id }: { id: number }) {
+export async function getBookById({ id }: { id: string }) {
   console.log("Fetching book with ID:", id);
 
   const book = await db.book.findFirst({
@@ -139,7 +120,7 @@ export async function getBookById({ id }: { id: number }) {
   return book;
 }
 
-export async function deleteBookById(id: number) {
+export async function deleteBookById(id: string) {
   const book = await db.book.delete({
     where: { id },
   });

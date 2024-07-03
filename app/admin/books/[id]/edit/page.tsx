@@ -12,7 +12,7 @@ interface EditBookPageProps {
 
 export default async function EditBookPage({ params }: EditBookPageProps) {
   const [book, categories, authors] = await Promise.all([
-    getBookById({ id: Number(params.id) }),
+    getBookById({ id: params.id }),
     getAllCategories(),
     getAllAuthors(),
   ]);

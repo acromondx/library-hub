@@ -2,46 +2,93 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useFormState, useFormStatus } from "react-dom";
 import { Category } from "@prisma/client";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { addCategory, updateCategory } from "../_actions/category";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { AddCategorySchema } from "@/lib/Validations/category";
+import { Errors } from "@/lib/errors";
 
 export function AddOrUpdateCategoryForm({
   category,
 }: {
   category?: Category | null;
 }) {
-  const [error, action] = useFormState(
-    category == null ? addCategory : updateCategory.bind(null, category.id),
-    {},
-  );
+  const form = useForm<z.infer<typeof AddCategorySchema>>({
+    mode: "onBlur",
+    resolver: zodResolver(AddCategorySchema),
+    defaultValues: {
+      name: category?.name,
+    },
+  });
+  const isLoading = form.formState.isLoading;
+
+  async function onSubmit(data: z.infer<typeof AddCategorySchema>) {
+    try {
+      const action = category
+        ? updateCategory(category!.id, data)
+        : addCategory(data);
+      await action;
+
+      form.reset();
+      toast.success(
+        `Category ${category ? "updated" : "added"}  successfully.`,
+      );
+    } catch (error) {
+      if ((error as Error).message === Errors.itemAlreadyExists) {
+        toast.error("Category name already exists.");
+      }
+    }
+  }
 
   return (
-    <form action={action} className="space-y-8">
-      <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
-        <Input
-          type="text"
-          id="name"
-          name="name"
-          required
-          defaultValue={category?.name || ""}
-        />
-        {error.name && <div className="text-destructive">{error.name}</div>}
-      </div>
+    <Card className="w-[500px] max-w-[500px]">
+      <CardHeader>
+        <CardTitle>Add category</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-4"
+          >
+            <FormField
+              disabled={isLoading}
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-      <SubmitButton />
-    </form>
-  );
-}
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button type="submit" disabled={pending}>
-      {pending ? "Saving..." : "Save"}
-    </Button>
+            <Button className="mt-4" disabled={isLoading} type="submit">
+              {form.formState.isSubmitting ? (
+                <Loader2 className="h-3 w-3 animate-spin" />
+              ) : (
+                "Add"
+              )}
+            </Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 }

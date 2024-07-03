@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -7,27 +8,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model EmailVerificationToken {
+  id        String   @id @default(cuid())
+  userId    String
+  email     String
+  expiresAt DateTime
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
 model User {
-  id           Int           @id @default(autoincrement())
-  name         String
-  email        String        @unique
-  password     String
-  role         UserRole      @default(USER)
-  loans        Loan[]        @relation("UserLoans")
-  reservations Reservation[]
-  requests     Request[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id                     String                   @id @default(cuid())
+  name                   String?
+  email                  String?                  @unique
+  emailVerified          Boolean?                 @default(false)
+  picture                String?
+  role                   UserRole                 @default(USER)
+  loans                  Loan[]                   @relation("UserLoans")
+  reservations           Reservation[]
+  requests               Request[]
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  sessions               Session[]
+  EmailVerificationToken EmailVerificationToken[]
 }
 
 model Book {
-  id           Int           @id @default(autoincrement())
+  id           String        @id @default(cuid())
   title        String
   description  String        @db.Text
   isbn         String        @unique
   publishedAt  DateTime
-  authorId     Int
-  categoryId   Int
+  authorId     String
+  categoryId   String
   copies       Int
   pictureUrl   String
   loans        Loan[]        @relation("BookLoans")
@@ -40,7 +59,7 @@ model Book {
 }
 
 model Author {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   name      String
   books     Book[]
   createdAt DateTime @default(now())
@@ -48,17 +67,17 @@ model Author {
 }
 
 model Category {
-  id        Int      @id @default(autoincrement())
-  name      String
+  id        String   @id @default(cuid())
+  name      String   @unique
   books     Book[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Loan {
-  id         Int       @id @default(autoincrement())
-  userId     Int
-  bookId     Int
+  id         String    @id @default(cuid())
+  userId     String
+  bookId     String
   loanedAt   DateTime  @default(now())
   dueDate    DateTime
   returnedAt DateTime?
@@ -70,9 +89,9 @@ model Loan {
 }
 
 model Reservation {
-  id         Int      @id @default(autoincrement())
-  userId     Int
-  bookId     Int
+  id         String   @id @default(cuid())
+  userId     String
+  bookId     String
   reservedAt DateTime @default(now())
   expiresAt  DateTime
   createdAt  DateTime @default(now())
@@ -83,8 +102,8 @@ model Reservation {
 }
 
 model Request {
-  id          Int           @id @default(autoincrement())
-  userId      Int
+  id          String        @id @default(cuid())
+  userId      String
   type        RequestType
   description String
   status      RequestStatus @default(PENDING)

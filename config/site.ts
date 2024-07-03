@@ -1,15 +1,10 @@
-export const siteUrl =
-  process.env.NEXT_PUBLIC_APP_URL || "https://chadnext.moinulmoin.com";
+export const siteUrl = process.env.NEXT_PUBLIC_APP_URL;
 
 export const siteConfig = (locale?: string) => ({
-  name: "ChadNext",
+  name: "Library Hub",
   url: siteUrl + "/" + locale,
   ogImage: `${siteUrl}/${locale}/opengraph-image`,
-  description: "Quick Starter Template for your Next project.",
-  links: {
-    twitter: "https://twitter.com/immoinulmoin",
-    github: "https://github.com/moinulmoin/chadnext",
-  },
+  description: "A sleek library management system",
 });
 
 export type SiteConfig = typeof siteConfig;

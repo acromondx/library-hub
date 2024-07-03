@@ -11,11 +11,11 @@ export const sendWelcomeEmail = async ({
   toMail,
   userName,
 }: SendWelcomeEmailProps) => {
-  const subject = "Thanks for using ChadNext!";
+  const subject = "Thanks for using LibraryHub!";
   const temp = ThanksTemp({ userName });
 
   await resend.emails.send({
-    from: `ChadNext App <chadnext@moinulmoin.com>`,
+    from: `LibraryHub  <donotreply@libraryhub.com>`,
     to: toMail,
     subject: subject,
     headers: {
@@ -30,11 +30,11 @@ export const sendVerificationEmail = async ({
   verificationUrl,
   userName,
 }: sendVerificationEmailProps) => {
-  const subject = "Email Verification for ChadNext";
+  const subject = "Email Verification for LibraryHub";
   const temp = VerificationTemp({ userName, verificationUrl });
 
   await resend.emails.send({
-    from: `ChadNext App <chadnext@moinulmoin.com>`,
+    from: `LibraryHub  <donotreply@libraryhub.com>`,
     to: toMail,
     subject: subject,
     headers: {

@@ -13,8 +13,7 @@ import {
   Text,
 } from "@react-email/components";
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_URL ?? "https://chadnext.moinulmoin.com";
+const siteUrl = process.env.NEXT_PUBLIC_URL;
 
 interface VerificationTemplateProps {
   userName: string;
@@ -37,17 +36,17 @@ const VerificationTemp: React.FC<Readonly<VerificationTemplateProps>> = ({
                 <Img
                   src={`${siteUrl}/chad-next.png`}
                   height="50"
-                  alt="ChadNext logo"
-                  className="inline-block "
+                  alt="LibraryHub logo"
+                  className="inline-block"
                 />
               </Column>
               <Column align="left">
-                <Text className="ml-2 text-lg font-bold">ChadNext</Text>
+                <Text className="ml-2 text-lg font-bold">LibraryHub</Text>
               </Column>
             </Row>
           </Section>
           <Text className="my-4 text-lg">Hi, {userName.split(" ")[0]}</Text>
-          <Text className="text-center text-base font-semibold ">
+          <Text className="text-center text-base font-semibold">
             Click the link below to login to your account.
           </Text>
           <Section className="mt-8 text-center">
@@ -57,14 +56,14 @@ const VerificationTemp: React.FC<Readonly<VerificationTemplateProps>> = ({
             >
               Sign In
             </Button>
-            <Text className="mt-2.5 text-sm ">
+            <Text className="mt-2.5 text-sm">
               This link expires in 3 minutes and can only be used once.
             </Text>
           </Section>
-          <Text className="mt-8 ">
+          <Text className="mt-8">
             Best,
             <br />
-            ChadNext team
+            LibraryHub
           </Text>
         </Container>
       </Body>

@@ -45,7 +45,10 @@ export function CardActions({ item, type }: CategoryOrAuthorCardActionsProps) {
           <span className="sr-only">Open</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem className="flex cursor-pointer items-center text-gray-700 focus:text-gray-700">
+          <DropdownMenuItem
+            asChild
+            className="flex cursor-pointer items-center text-gray-700 focus:text-gray-700"
+          >
             <Link href={editLink}>Edit </Link>
           </DropdownMenuItem>
 
