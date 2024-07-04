@@ -12,23 +12,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { IBook as Book } from "../_actions/actions";
 
-// model Book {
-//     description  String        @db.Text
-//     isbn         String        @unique
-//     publishedAt  DateTime
-//     authorId     String
-//     categoryId   String
-//     copies       Int
-//     pictureUrl   String
-//     loans        Loan[]        @relation("BookLoans")
-//     reservations Reservation[]
-//     createdAt    DateTime      @default(now())
-//     updatedAt    DateTime      @updatedAt
-
-//     author   Author   @relation(fields: [authorId], references: [id])
-//     category Category @relation(fields: [categoryId], references: [id])
-//   }
-
 interface Filters {
   category: string[];
   author: string[];

@@ -1,14 +1,6 @@
 "use client";
 import Link from "next/link";
-import {
-  Bell,
-  LayoutDashboardIcon,
-  LibraryBigIcon,
-  LineChart,
-  Package,
-  Package2,
-  Users,
-} from "lucide-react";
+import { Bell, Package2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,34 +12,13 @@ import {
 } from "@/components/ui/card";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { SidebarNavigation } from "@/config/navigation";
 
-{
-  /* <Link
-href="#"
-className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
->
-<LineChart className="h-4 w-4" />
-Analyticsn
-</Link> */
-}
-
-// LayoutDashboardIcon,
-// LineChart,
-// Menu,
-// Package,
-// Package2,
-// LibraryBigIcon,
-// Users,
-
-const navigation = [
-  { name: "Overview", icon: LayoutDashboardIcon, href: "/admin/overview" },
-  { name: "Books", icon: LibraryBigIcon, href: "/admin/books" },
-  { name: "Requests", icon: Package, href: "/admin/requests" },
-  { name: "Users", icon: Users, href: "/admin/users" },
-  { name: "Analytics", icon: LineChart, href: "/admin/analytics" },
-];
-
-export function Sidebar() {
+export function Sidebar({
+  sidebarNavigation,
+}: {
+  sidebarNavigation: SidebarNavigation[];
+}) {
   const segment = useSelectedLayoutSegment();
 
   return (
@@ -65,7 +36,7 @@ export function Sidebar() {
         </div>
         <div className="flex-1">
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-            {navigation.map((item, index) => {
+            {sidebarNavigation.map((item, index) => {
               const Icon = item.icon;
               let isActive = item.href.includes(String(segment));
               return (

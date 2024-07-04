@@ -1,27 +1,21 @@
+"use client";
 import Link from "next/link";
-import {
-  Home,
-  LineChart,
-  Menu,
-  Package,
-  Package2,
-  ShoppingCart,
-  Users,
-} from "lucide-react";
+import { Library, Menu } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useSelectedLayoutSegment } from "next/navigation";
+import { SidebarNavigation } from "@/config/navigation";
+import { cn } from "@/lib/utils";
 
-export function MobileSidebar() {
+export function MobileSidebar({
+  sidebarNavigation,
+}: {
+  sidebarNavigation: SidebarNavigation[];
+}) {
+  const segment = useSelectedLayoutSegment();
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -36,55 +30,36 @@ export function MobileSidebar() {
             href="#"
             className="flex items-center gap-2 text-lg font-semibold"
           >
-            <Package2 className="h-6 w-6" />
+            <Library className="h-6 w-6" />
             <span className="sr-only">Acme Inc</span>
           </Link>
-          <Link
-            href="#"
-            className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-          >
-            <Home className="h-5 w-5" />
-            Dashboard
-          </Link>
-          <Link
-            href="#"
-            className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
-          >
-            <ShoppingCart className="h-5 w-5" />
-            Orders
-            <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-              6
-            </Badge>
-          </Link>
-          <Link
-            href="#"
-            className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-          >
-            <Package className="h-5 w-5" />
-            Products
-          </Link>
-          <Link
-            href="#"
-            className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-          >
-            <Users className="h-5 w-5" />
-            Customers
-          </Link>
-          <Link
-            href="#"
-            className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-          >
-            <LineChart className="h-5 w-5" />
-            Analytics
-          </Link>
+
+          {sidebarNavigation.map((item, index) => {
+            const Icon = item.icon;
+            let isActive = item.href.includes(String(segment));
+            return (
+              <Link
+                aria-label={item.name}
+                key={index}
+                href={item.href}
+                className={cn(
+                  isActive
+                    ? "flex items-center gap-3 rounded-lg bg-primary/[0.2] px-3 py-2 text-primary transition-all hover:text-primary"
+                    : "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                )}
+              >
+                <Icon className="h-5 w-5" />
+                {item.name}
+              </Link>
+            );
+          })}
         </nav>
-        <div className="mt-auto">
+        {/* <div className="mt-auto">
           <Card>
             <CardHeader>
               <CardTitle>Upgrade to Pro</CardTitle>
               <CardDescription>
-                Unlock all features and get unlimited access to our support
-                team.
+                Unlock all features
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -93,7 +68,7 @@ export function MobileSidebar() {
               </Button>
             </CardContent>
           </Card>
-        </div>
+        </div> */}
       </SheetContent>
     </Sheet>
   );

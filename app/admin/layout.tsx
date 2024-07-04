@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { CircleUser, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,10 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sidebar } from "@/components/Sidebar";
 import { MobileSidebar } from "@/components/MobileSidebar";
-
-import "../globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { adminSidebarNavigation } from "@/config/navigation";
 
 export const metadata: Metadata = {
   title: "Library Hub",
@@ -30,10 +26,10 @@ export default async function AdminLayout({
 }) {
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <Sidebar />
+      <Sidebar sidebarNavigation={adminSidebarNavigation} />
       <div className="flex flex-col">
         <header className="sticky top-0 flex h-14 items-center gap-4 border-b bg-muted px-4 lg:h-[60px] lg:px-6">
-          <MobileSidebar />
+          <MobileSidebar sidebarNavigation={adminSidebarNavigation} />
           <div className="w-full flex-1">
             <form>
               <div className="relative">
