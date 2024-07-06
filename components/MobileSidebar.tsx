@@ -1,9 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Library, Menu } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
-
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { SidebarNavigation } from "@/config/navigation";

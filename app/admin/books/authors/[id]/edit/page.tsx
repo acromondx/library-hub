@@ -1,7 +1,7 @@
-import { DashboardHeader } from "@/app/admin/_components/DashboardHeader";
+import { DashboardHeader } from "@/app/admin/components/DashboardHeader";
 import { BackButton } from "@/components/buttons";
-import { AddOrUpdateAuthorForm } from "@/app/admin/_components/AddOrUpdateAuthorForm";
-import { getAuthorById } from "@/app/admin/_actions/author";
+import { AddOrUpdateAuthorForm } from "@/app/admin/components/AddOrUpdateAuthorForm";
+import { getAuthorById } from "@/app/admin/actions/author";
 import { notFound } from "next/navigation";
 
 interface EditAuthorPageProps {

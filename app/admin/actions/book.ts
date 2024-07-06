@@ -5,11 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { imageDb } from "@/lib/firebase";
-import {
-  AddBookSchema,
-  ImageSchema,
-  UpdateBookSchema,
-} from "@/lib/validations";
+import { AddBookSchema, UpdateBookSchema } from "@/lib/schema/admin";
 import { z } from "zod";
 
 export async function addBook(rawData: z.infer<typeof AddBookSchema>) {

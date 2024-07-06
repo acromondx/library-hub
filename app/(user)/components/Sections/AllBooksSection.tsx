@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { IBook as Book } from "../_actions/actions";
+import { IBook as Book } from "../../actions/actions";
 
 interface Filters {
   category: string[];

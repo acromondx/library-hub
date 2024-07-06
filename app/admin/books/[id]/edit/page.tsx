@@ -1,8 +1,8 @@
-import { DashboardHeader } from "@/app/admin/_components/DashboardHeader";
-import { AddOrUpdateBookForm } from "@/app/admin/_components/AddOrUpdateBookForm";
-import { getBookById } from "@/app/admin/_actions/book";
-import { getAllCategories } from "@/app/admin/_actions/category";
-import { getAllAuthors } from "@/app/admin/_actions/author";
+import { DashboardHeader } from "@/app/admin/components/DashboardHeader";
+import { AddOrUpdateBookForm } from "@/app/admin/components/AddOrUpdateBookForm";
+import { getBookById } from "@/app/admin/actions/book";
+import { getAllCategories } from "@/app/admin/actions/category";
+import { getAllAuthors } from "@/app/admin/actions/author";
 
 interface EditBookPageProps {
   params: {

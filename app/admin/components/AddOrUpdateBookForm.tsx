@@ -18,8 +18,8 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { AddBookSchema, UpdateBookSchema } from "@/lib/validations";
-import { addBook, updateBook } from "../_actions/book";
+import { AddBookSchema, UpdateBookSchema } from "@/lib/schema/admin";
+import { addBook, updateBook } from "../actions/book";
 import { Textarea } from "@/components/ui/textarea";
 import { ChangeEvent, useEffect, useState } from "react";
 import {

@@ -2,9 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Category } from "@prisma/client";
+import { Author } from "@prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addCategory, updateCategory } from "../_actions/category";
+import { addAuthor, updateAuthor } from "../actions/author";
 import {
   Form,
   FormControl,
@@ -15,48 +15,37 @@ import {
 } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
-import { AddCategorySchema } from "@/lib/Validations/category";
-import { Errors } from "@/lib/errors";
+import { useRouter } from "next/navigation";
+import { AddAuthorSchema, AddAuthorSchemaType } from "@/lib/schema/admin";
 
-export function AddOrUpdateCategoryForm({
-  category,
-}: {
-  category?: Category | null;
-}) {
-  const form = useForm<z.infer<typeof AddCategorySchema>>({
+export function AddOrUpdateAuthorForm({ author }: { author?: Author | null }) {
+  const router = useRouter();
+
+  const form = useForm<AddAuthorSchemaType>({
     mode: "onBlur",
-    resolver: zodResolver(AddCategorySchema),
+    resolver: zodResolver(AddAuthorSchema),
     defaultValues: {
-      name: category?.name,
+      name: author?.name,
     },
   });
   const isLoading = form.formState.isLoading;
 
-  async function onSubmit(data: z.infer<typeof AddCategorySchema>) {
-    try {
-      const action = category
-        ? updateCategory(category!.id, data)
-        : addCategory(data);
-      await action;
+  async function onSubmit(data: AddAuthorSchemaType) {
+    const action = author ? updateAuthor(author!.id, data) : addAuthor(data);
+    await action;
 
-      form.reset();
-      toast.success(
-        `Category ${category ? "updated" : "added"}  successfully.`,
-      );
-    } catch (error) {
-      if ((error as Error).message === Errors.itemAlreadyExists) {
-        toast.error("Category name already exists.");
-      }
-    }
+    form.reset();
+    router.refresh();
+
+    toast.success("Category updated successfully.");
   }
 
   return (
     <Card className="w-[500px] max-w-[500px]">
       <CardHeader>
-        <CardTitle>Add category</CardTitle>
+        <CardTitle>Add author</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>

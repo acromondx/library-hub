@@ -1,8 +1,8 @@
 import { BackButton } from "@/components/buttons";
-import { DashboardHeader } from "../../_components/DashboardHeader";
-import { AddOrUpdateBookForm } from "../../_components/AddOrUpdateBookForm";
-import { getAllCategories } from "../../_actions/category";
-import { getAllAuthors } from "../../_actions/author";
+import { DashboardHeader } from "../../components/DashboardHeader";
+import { AddOrUpdateBookForm } from "../../components/AddOrUpdateBookForm";
+import { getAllCategories } from "../../actions/category";
+import { getAllAuthors } from "../../actions/author";
 
 export default async function Dashboard() {
   const [categories, authors] = await Promise.all([

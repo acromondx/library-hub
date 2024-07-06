@@ -1,6 +1,6 @@
-import { getBookById } from "@/app/admin/_actions/book";
-import { getAllCategories } from "@/app/admin/_actions/category";
-import { getAllAuthors } from "@/app/admin/_actions/author";
+import { getBookById } from "@/app/admin/actions/book";
+import { getAllCategories } from "@/app/admin/actions/category";
+import { getAllAuthors } from "@/app/admin/actions/author";
 import { BackButton } from "@/components/buttons";
 
 interface ViewBookPageProps {

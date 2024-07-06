@@ -1,15 +1,11 @@
-import { TabsNavigation } from "@/components/admin/TabNav";
-
-interface ContestPageLayoutProps extends React.PropsWithChildren {
-  params: {
-    contestId: string;
-  };
-}
+import { TabsNavigation } from "@/app/admin/components/TabNav";
+import { ReactNode } from "react";
 
 export default async function BooksLayout({
   children,
-  params,
-}: ContestPageLayoutProps) {
+}: {
+  children: ReactNode;
+}) {
   return (
     <div className="w-full space-y-8 overflow-auto">
       <TabsNavigation />

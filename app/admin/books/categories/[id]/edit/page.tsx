@@ -1,7 +1,7 @@
-import { DashboardHeader } from "@/app/admin/_components/DashboardHeader";
-import { getCategoryById } from "@/app/admin/_actions/category";
+import { DashboardHeader } from "@/app/admin/components/DashboardHeader";
+import { getCategoryById } from "@/app/admin/actions/category";
 import { BackButton } from "@/components/buttons";
-import { AddOrUpdateCategoryForm } from "@/app/admin/_components/AddOrUpdateCategoryForm";
+import { AddOrUpdateCategoryForm } from "@/app/admin/components/AddOrUpdateCategoryForm";
 
 interface EditCategoryPageProps {
   params: {
