@@ -11,9 +11,6 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.6.0
         version: 3.6.0(react-hook-form@7.52.0(react@18.3.1))
-      '@lucia-auth/adapter-prisma':
-        specifier: ^4.0.1
-        version: 4.0.1(@prisma/client@5.15.1(prisma@5.15.1))(lucia@3.2.0)
       '@prisma/client':
         specifier: 5.15.1
         version: 5.15.1(prisma@5.15.1)
@@ -83,9 +80,6 @@ importers:
       firebase:
         specifier: ^10.12.2
         version: 10.12.2
-      lucia:
-        specifier: ^3.2.0
-        version: 3.2.0
       lucide-react:
         specifier: ^0.395.0
         version: 0.395.0(react@18.3.1)
@@ -461,12 +455,6 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
-
-  '@lucia-auth/adapter-prisma@4.0.1':
-    resolution: {integrity: sha512-3SztRhj1RAHbbhI/0aB7YC5zl6Z6aktPhkWpn2CHhiB03B9x/+A+M6pqJuAt1usU8PzkjVilgRPhrPymMar66A==}
-    peerDependencies:
-      '@prisma/client': ^4.2.0 || ^5.0.0
-      lucia: 3.x
 
   '@next/env@14.2.4':
     resolution: {integrity: sha512-3EtkY5VDkuV2+lNmKlbkibIJxcO4oIHEhBWne6PaAp+76J9KoSsGvNikp6ivzAT8dhhBMYrm6op2pS1ApG0Hzg==}
@@ -2718,9 +2706,6 @@ packages:
     resolution: {integrity: sha512-9hp3Vp2/hFQUiIwKo8XCeFVnrg8Pk3TYNPIR7tJADKi5YfcF7vEaK7avFHTlSy3kOKYaJQaalfEo6YuXdceBOQ==}
     engines: {node: 14 || >=16.14}
 
-  lucia@3.2.0:
-    resolution: {integrity: sha512-eXMxXwk6hqtjRTj4W/x3EnTUtAztLPm0p2N2TEBMDEbakDLXiYnDQ9z/qahjPdPdhPguQc+vwO0/88zIWxlpuw==}
-
   lucide-react@0.395.0:
     resolution: {integrity: sha512-6hzdNH5723A4FLaYZWpK50iyZH8iS2Jq5zuPRRotOFkhu6kxxJiebVdJ72tCR5XkiIeYFOU5NUawFZOac+VeYw==}
     peerDependencies:
@@ -2873,9 +2858,6 @@ packages:
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
     engines: {node: '>= 0.8.0'}
-
-  oslo@1.2.0:
-    resolution: {integrity: sha512-OoFX6rDsNcOQVAD2gQD/z03u4vEjWZLzJtwkmgfRF+KpQUXwdgEXErD7zNhyowmHwHefP+PM9Pw13pgpHMRlzw==}
 
   oslo@1.2.1:
     resolution: {integrity: sha512-HfIhB5ruTdQv0XX2XlncWQiJ5SIHZ7NHZhVyHth0CSZ/xzge00etRyYy/3wp/Dsu+PkxMC+6+B2lS/GcKoewkA==}
@@ -4011,11 +3993,6 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
-
-  '@lucia-auth/adapter-prisma@4.0.1(@prisma/client@5.15.1(prisma@5.15.1))(lucia@3.2.0)':
-    dependencies:
-      '@prisma/client': 5.15.1(prisma@5.15.1)
-      lucia: 3.2.0
 
   '@next/env@14.2.4': {}
 
@@ -6349,10 +6326,6 @@ snapshots:
 
   lru-cache@10.2.2: {}
 
-  lucia@3.2.0:
-    dependencies:
-      oslo: 1.2.0
-
   lucide-react@0.395.0(react@18.3.1):
     dependencies:
       react: 18.3.1
@@ -6511,11 +6484,6 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
       word-wrap: 1.2.5
-
-  oslo@1.2.0:
-    dependencies:
-      '@node-rs/argon2': 1.7.0
-      '@node-rs/bcrypt': 1.9.0
 
   oslo@1.2.1:
     dependencies:

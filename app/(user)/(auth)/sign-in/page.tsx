@@ -69,17 +69,19 @@ function AuthForm() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/auth/login/magic-link", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      // const res = await fetch("/api/auth/login/magic-link", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(data),
+      // });
+
+      console.log(data);
 
       setIsLoading(false);
 
-      if (!res.ok) {
-        return toast.error("Failed to send Magic link!");
-      }
+      // if (!res.ok) {
+      //   return toast.error("Failed to send Magic link!");
+      // }
 
       reset();
       toast.info("Magic Link sent!");
