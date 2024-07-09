@@ -1,11 +1,16 @@
+"use server";
 import db from "@/db/db";
-import { Book, Bookmark, User } from "@prisma/client";
+import { Bookmark, User } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { revalidatePath } from "next/cache";
 
-export async function addBookmark(
-  userId: string,
-  bookId: string,
-): Promise<Bookmark> {
+export async function addBookmark({
+  userId,
+  bookId,
+}: {
+  bookId: string;
+  userId: string;
+}): Promise<Bookmark> {
   try {
     const bookmark = await db.bookmark.create({
       data: {
@@ -13,6 +18,7 @@ export async function addBookmark(
         bookId,
       },
     });
+    console.log("++++ Bookmark created");
     return bookmark;
   } catch (error) {
     if (
@@ -25,10 +31,13 @@ export async function addBookmark(
   }
 }
 
-export async function removeBookmark(
-  userId: string,
-  bookId: string,
-): Promise<void> {
+export async function removeBookmark({
+  userId,
+  bookId,
+}: {
+  userId: string;
+  bookId: string;
+}): Promise<void> {
   await db.bookmark.delete({
     where: {
       userId_bookId: {
@@ -37,20 +46,39 @@ export async function removeBookmark(
       },
     },
   });
+  revalidatePath(`/bookmarks`);
 }
 
-export async function getBookmarks(userId: string): Promise<Book[]> {
+export async function getBookmarksByUser({ userId }: { userId: string }) {
   const bookmarks = await db.bookmark.findMany({
     where: { userId },
-    include: { book: true },
+    include: {
+      book: {
+        include: {
+          author: true,
+          category: true,
+        },
+      },
+    },
   });
-  return bookmarks.map((bookmark) => bookmark.book);
+
+  return bookmarks.map((bookmark) => ({
+    id: bookmark.id,
+    bookId: bookmark.book.id,
+    title: bookmark.book.title,
+    pictureUrl: bookmark.book.pictureUrl,
+    author: bookmark.book.author.name,
+    category: bookmark.book.category.name,
+  }));
 }
 
-export async function isBookmark(
-  userId: string,
-  bookId: string,
-): Promise<boolean> {
+export async function isBookmark({
+  userId,
+  bookId,
+}: {
+  userId: string;
+  bookId: string;
+}): Promise<boolean> {
   const bookmark = await db.bookmark.findUnique({
     where: {
       userId_bookId: {
@@ -62,14 +90,22 @@ export async function isBookmark(
   return !!bookmark;
 }
 
-export async function getBookmarkCount(bookId: string): Promise<number> {
+export async function getBookmarkCount({
+  bookId,
+}: {
+  bookId: string;
+}): Promise<number> {
   const count = await db.bookmark.count({
     where: { bookId },
   });
   return count;
 }
 
-export async function getUsersWhoBookmarked(bookId: string): Promise<User[]> {
+export async function getUsersWhoBookmarked({
+  bookId,
+}: {
+  bookId: string;
+}): Promise<User[]> {
   const bookmarks = await db.bookmark.findMany({
     where: { bookId },
     include: { user: true },
@@ -77,16 +113,22 @@ export async function getUsersWhoBookmarked(bookId: string): Promise<User[]> {
   return bookmarks.map((bookmark) => bookmark.user);
 }
 
-export async function toggleBookmark(
-  userId: string,
-  bookId: string,
-): Promise<boolean> {
-  const bookmark = await isBookmark(userId, bookId);
+export async function toggleBookmark({
+  userId,
+  bookId,
+}: {
+  userId: string;
+  bookId: string;
+}): Promise<boolean> {
+  const bookmark = await isBookmark({ userId: userId, bookId: bookId });
   if (bookmark) {
-    await removeBookmark(userId, bookId);
+    await removeBookmark({ userId: userId, bookId: bookId });
+    revalidatePath(`/books/${bookId}`);
     return false;
   } else {
-    await addBookmark(userId, bookId);
+    await addBookmark({ bookId: bookId, userId: userId });
+    revalidatePath(`/books/${bookId}`);
+
     return true;
   }
 }
