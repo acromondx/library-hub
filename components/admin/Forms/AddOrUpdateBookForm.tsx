@@ -19,7 +19,7 @@ import { toast } from "sonner";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { AddBookSchema, UpdateBookSchema } from "@/lib/schema/admin";
-import { addBook, updateBook } from "../actions/book";
+import { addBook, updateBook } from "@/actions/admin/book";
 import { Textarea } from "@/components/ui/textarea";
 import { ChangeEvent, useEffect, useState } from "react";
 import {
@@ -90,15 +90,19 @@ export function AddOrUpdateBookForm({
   }, [currentSelectedImage, book?.pictureUrl]);
 
   async function onSubmit(data: z.infer<typeof schema>) {
-    console.log(data);
+    try {
+      console.log(data);
 
-    const action = book ? updateBook(book!.id, data) : addBook(data);
-    await action;
+      const action = book ? updateBook(book!.id, data) : addBook(data);
+      await action;
 
-    form.reset();
-    router.refresh();
+      form.reset();
+      router.refresh();
 
-    toast.success("Category updated successfully.");
+      toast.success("Category updated successfully.");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

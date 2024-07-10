@@ -10,8 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Sidebar } from "@/components/Sidebar";
-import { MobileSidebar } from "@/components/MobileSidebar";
+import { Sidebar } from "@/components/shared/Sidebar";
+import { MobileSidebar } from "@/components/shared/MobileSidebar";
 import { adminSidebarNavigation } from "@/config/navigation";
 
 export const metadata: Metadata = {

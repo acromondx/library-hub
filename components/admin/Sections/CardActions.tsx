@@ -22,10 +22,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { Ellipsis, Loader2Icon, Trash2Icon } from "lucide-react";
-import { deleteCategoryById } from "../actions/category";
+import { deleteCategoryById } from "@/actions/admin/category";
 import { Author, Category } from "@prisma/client";
 import Link from "next/link";
-import { deleteAuthorById } from "../actions/author";
+import { deleteAuthorById } from "@/actions/admin/author";
 
 interface CategoryOrAuthorCardActionsProps {
   type: "category" | "author";

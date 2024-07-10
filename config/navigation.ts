@@ -1,11 +1,13 @@
 "use client";
 
 import {
+  BookmarkIcon,
   LayoutDashboardIcon,
   LibraryBigIcon,
   LineChart,
   LucideIcon,
   Package,
+  User,
   Users,
 } from "lucide-react";
 
@@ -27,5 +29,6 @@ export const userSidebarNavigation: SidebarNavigation[] = [
   { name: "Books", icon: LayoutDashboardIcon, href: "/books" },
   { name: "Reservations", icon: LibraryBigIcon, href: "/reservations" },
   { name: "Requests", icon: Package, href: "/requests" },
-  { name: "Account", icon: LineChart, href: "/analytics" },
+  { name: "Bookmarks", icon: BookmarkIcon, href: "/bookmarks" },
+  { name: "Account", icon: User, href: "/analytics" },
 ];

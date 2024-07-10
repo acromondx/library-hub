@@ -38,8 +38,8 @@ export async function addBook(rawData: z.infer<typeof AddBookSchema>) {
 
   // } catch (error) {
   //   if (
-  //     error instanceof PrismaClientKnownRequestError &&
-  //     error.code === "P2002"
+  // error instanceof PrismaClientKnownRequestError &&
+  // error.code === "P2002"
   //   ) {
   //     if (error.meta?.target === "Book_isbn_key") {
   //       console.error("ISBN already exists:", error);

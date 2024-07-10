@@ -18,7 +18,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SubmitRequestSchema } from "@/lib/schema/user";
-import { submitRequest } from "../../actions/actions";
+import { submitRequest } from "@/actions/user/actions";
 import {
   Select,
   SelectContent,

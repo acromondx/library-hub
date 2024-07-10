@@ -11,8 +11,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { removeBookmark } from "../../actions/bookmarks";
+import { removeBookmark } from "@/actions/user/bookmarks";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface BookmarkPageProps {
   id: string;
@@ -52,13 +53,17 @@ export default function BookmarksSection({
   const totalPages = Math.ceil(filteredBookmarks.length / booksPerPage);
 
   const handleRemoveBookmark = async (id: string, bookId: string) => {
-    await removeBookmark({
-      userId: userId,
-      bookId: bookId,
-    });
-    setBookmarks((prevBookmarks) =>
-      prevBookmarks.filter((bookmark) => bookmark.id !== id),
-    );
+    try {
+      await removeBookmark({
+        userId: userId,
+        bookId: bookId,
+      });
+      setBookmarks((prevBookmarks) =>
+        prevBookmarks.filter((bookmark) => bookmark.id !== id),
+      );
+    } catch (error) {
+      toast.error("Failed");
+    }
     router.refresh();
   };
 
@@ -112,7 +117,7 @@ export default function BookmarksSection({
             <PaginationItem>
               <PaginationPrevious
                 href="#"
-                disabled={currentPage === 1}
+                // disabled={currentPage === 1}
                 onClick={() => handlePageChange(currentPage - 1)}
               />
             </PaginationItem>
@@ -130,7 +135,7 @@ export default function BookmarksSection({
             <PaginationItem>
               <PaginationNext
                 href="#"
-                disabled={currentPage === totalPages}
+                // disabled={currentPage === totalPages}
                 onClick={() => handlePageChange(currentPage + 1)}
               />
             </PaginationItem>

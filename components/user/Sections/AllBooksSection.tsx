@@ -2,15 +2,10 @@
 
 import { ChangeEvent, useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
 import { Button } from "@/components/ui/button";
-import { IBook as Book } from "../../actions/actions";
+import { IBook as Book } from "@/actions/user/actions";
+import Link from "next/link";
 
 interface Filters {
   category: string[];
@@ -105,7 +100,7 @@ export default function AllBooksSection({ books }: { books: Book[] }) {
             onChange={handleSearch}
             className="w-full max-w-md"
           />
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
                 Sort by <ChevronDownIcon className="ml-2 h-4 w-4" />
@@ -127,7 +122,7 @@ export default function AllBooksSection({ books }: { books: Book[] }) {
                 </DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </div>
       </div>
       <div className="mb-6 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -145,8 +140,8 @@ export default function AllBooksSection({ books }: { books: Book[] }) {
             <p className="mb-4 text-muted-foreground">
               {book.availableCopies} copies available
             </p>
-            <Button variant="outline" className="w-full" onClick={() => {}}>
-              View Details
+            <Button asChild variant="outline" className="w-full">
+              <Link href={`/books/${book.id}`}>View Details</Link>
             </Button>
           </div>
         ))}

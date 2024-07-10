@@ -1,8 +1,8 @@
 import { PlusCircleIcon } from "lucide-react";
-import { LinkButton } from "@/components/buttons";
-import AllBooksSection from "../components/AllBooksSection";
-import { DashboardHeader } from "../components/DashboardHeader";
-import { getAllBooks } from "../actions/book";
+import { LinkButton } from "@/components/shared/buttons";
+import AllBooksSection from "@/components/admin/Sections/AllBooksSection";
+import { DashboardHeader } from "@/components/shared/DashboardHeader";
+import { getAllBooks } from "@/actions/admin/book";
 
 export default async function NewProductPage() {
   const books = await getAllBooks();

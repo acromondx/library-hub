@@ -39,7 +39,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Edit3, EyeIcon, Search, Trash2 } from "lucide-react";
 import { Author, Book, Category } from "@prisma/client";
 import Link from "next/link";
-import { deleteBookById } from "../actions/book";
+import { deleteBookById } from "@/actions/admin/book";
 
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);

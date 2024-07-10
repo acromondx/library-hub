@@ -1,8 +1,8 @@
-import { DashboardHeader } from "../../components/DashboardHeader";
+import { DashboardHeader } from "../@/components/DashboardHeader";
 import { PlusCircleIcon } from "lucide-react";
-import { LinkButton } from "@/components/buttons";
-import { getAllCategories } from "../../actions/category";
-import { CategoryOrAuthorCard } from "../../components/CategoryOrAuthorCard";
+import { LinkButton } from "@/components/shared/buttons";
+import { getAllCategories } from "@/actions/admin/category";
+import { CategoryOrAuthorCard } from "../@/components/CategoryOrAuthorCard";
 
 export default async function NewProductPage() {
   const categories = await getAllCategories();

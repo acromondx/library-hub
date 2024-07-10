@@ -5,7 +5,7 @@ import { z } from "zod";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { AddCategorySchema } from "@/lib/schema/category";
+import { AddCategorySchema } from "@/lib/schema/admin";
 import { Errors } from "@/lib/errors";
 
 export async function addCategory(rawInput: z.infer<typeof AddCategorySchema>) {

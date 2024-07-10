@@ -5,7 +5,7 @@ import { z } from "zod";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { AddAuthorSchema } from "@/lib/Validations/author";
+import { AddAuthorSchema } from "@/lib/schema/admin";
 
 export async function addAuthor(rawInput: z.infer<typeof AddAuthorSchema>) {
   // const result = AddAuthorSchema.safeParse(

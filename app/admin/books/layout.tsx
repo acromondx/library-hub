@@ -1,4 +1,4 @@
-import { TabsNavigation } from "@/app/admin/components/TabNav";
+import { TabsNavigation } from "@/components/shared/TabNav";
 import { ReactNode } from "react";
 
 export default async function BooksLayout({
