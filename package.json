@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.4.1",
     "@hookform/resolvers": "^3.6.0",
     "@prisma/client": "5.15.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
@@ -29,6 +30,7 @@
     "@serwist/next": "^9.0.3",
     "@tanstack/react-table": "^8.17.3",
     "@uploadthing/react": "^6.7.2",
+    "@vercel/og": "^0.6.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
@@ -36,8 +38,8 @@
     "lucide-react": "^0.395.0",
     "nanoid": "^5.0.7",
     "next": "14.2.4",
+    "next-auth": "5.0.0-beta.18",
     "next-themes": "^0.3.0",
-    "oslo": "^1.2.1",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
