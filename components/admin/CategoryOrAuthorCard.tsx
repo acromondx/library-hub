@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/dist/client/link";
 import { Author, Category } from "@prisma/client";
 import { Card } from "@/components/ui/card";
-import { CardActions } from "./CardActions";
+import { CardActions } from "./Sections/CardActions";
 
 export function CategoryOrAuthorCard({
   item,

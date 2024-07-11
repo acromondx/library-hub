@@ -1,5 +1,5 @@
 import { BackButton } from "@/components/shared/buttons";
-import { DashboardHeader } from "../@/components/DashboardHeader";
+import { DashboardHeader } from "@/components/shared/DashboardHeader";
 import { AddOrUpdateBookForm } from "@/components/admin/Forms/AddOrUpdateBookForm";
 import { getAllCategories } from "@/actions/admin/category";
 import { getAllAuthors } from "@/actions/admin/author";

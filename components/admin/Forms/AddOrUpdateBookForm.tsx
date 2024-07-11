@@ -18,7 +18,12 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { AddBookSchema, UpdateBookSchema } from "@/lib/schema/admin";
+import {
+  AddBookSchema,
+  AddBookSchemaType,
+  UpdateBookSchema,
+  UpdateBookSchemaType,
+} from "@/lib/schema/admin";
 import { addBook, updateBook } from "@/actions/admin/book";
 import { Textarea } from "@/components/ui/textarea";
 import { ChangeEvent, useEffect, useState } from "react";
@@ -50,6 +55,7 @@ export function AddOrUpdateBookForm({
 }) {
   const router = useRouter();
   const schema = book ? UpdateBookSchema : AddBookSchema;
+
   const form = useForm<z.infer<typeof schema>>({
     mode: "onBlur",
     resolver: zodResolver(schema),
@@ -89,17 +95,20 @@ export function AddOrUpdateBookForm({
     }
   }, [currentSelectedImage, book?.pictureUrl]);
 
-  async function onSubmit(data: z.infer<typeof schema>) {
+  async function onSubmit(data: AddBookSchemaType | UpdateBookSchemaType) {
     try {
       console.log(data);
 
-      const action = book ? updateBook(book!.id, data) : addBook(data);
-      await action;
+      if (book) {
+        await updateBook(book.id, data as UpdateBookSchemaType);
+        toast.success("Book updated.");
+      } else {
+        await addBook(data as AddBookSchemaType);
+        toast.success("Book added.");
+      }
 
       form.reset();
       router.refresh();
-
-      toast.success("Category updated successfully.");
     } catch (error) {
       console.log(error);
     }
@@ -291,10 +300,9 @@ export function AddOrUpdateBookForm({
                 <Input
                   type="file"
                   id="image"
-                  name="image"
                   onChange={(e) => {
                     handleFileChange(e);
-                    field.onChange(e.target.files?.[0]); // Update form state
+                    field.onChange(e.target.files?.[0]);
                   }}
                 />
               </FormControl>

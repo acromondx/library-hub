@@ -40,5 +40,8 @@ export const AddCategorySchema = z.object({
 });
 
 //type exports
+export type AddBookSchemaType = z.infer<typeof AddBookSchema>;
+export type UpdateBookSchemaType = z.infer<typeof UpdateBookSchema>;
+
 export type AddAuthorSchemaType = z.infer<typeof AddAuthorSchema>;
 export type AddCategorySchemaType = z.infer<typeof AddCategorySchema>;

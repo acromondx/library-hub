@@ -55,7 +55,7 @@ export const {
 
       token.name = dbUser.name;
       token.email = dbUser.email;
-      token.picture = dbUser.image;
+      token.picture = dbUser.picture;
       token.role = dbUser.role;
 
       return token;

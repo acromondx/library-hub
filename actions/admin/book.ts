@@ -12,9 +12,13 @@ export async function addBook(rawData: z.infer<typeof AddBookSchema>) {
   const data = AddBookSchema.parse(rawData);
 
   try {
-    const fileRef = ref(imageDb, `libraryhub/${crypto.randomUUID()}`);
-    await uploadBytes(fileRef, data.image);
-    const pictureUrl = await getDownloadURL(fileRef);
+    let pictureUrl = "";
+
+    if (data.image) {
+      const fileRef = ref(imageDb, `libraryhub/${crypto.randomUUID()}`);
+      await uploadBytes(fileRef, data.image);
+      pictureUrl = await getDownloadURL(fileRef);
+    }
 
     await db.book.create({
       data: {
@@ -75,12 +79,14 @@ export async function updateBook(
     categoryId: data.categoryId,
   };
 
-  if (data.image?.type.startsWith("image/")) {
-    console.log("🔥 firebase ++++++++++");
-    const fileRef = ref(imageDb, `libraryhub/${crypto.randomUUID()}`);
-    await uploadBytes(fileRef, data.image);
-    const pictureUrl = await getDownloadURL(fileRef);
-    updateData.pictureUrl = pictureUrl;
+  if (data.image) {
+    if (data.image.type.startsWith("image/")) {
+      console.log("🔥 firebase ++++++++++");
+      const fileRef = ref(imageDb, `libraryhub/${crypto.randomUUID()}`);
+      await uploadBytes(fileRef, data.image);
+      const pictureUrl = await getDownloadURL(fileRef);
+      updateData.pictureUrl = pictureUrl;
+    }
   }
 
   console.log("prisma ++++++++++");
