@@ -5,7 +5,7 @@ import {
   LayoutDashboardIcon,
   LibraryBigIcon,
   LineChart,
-  LucideIcon,
+  type LucideIcon,
   Package,
   User,
   Users,

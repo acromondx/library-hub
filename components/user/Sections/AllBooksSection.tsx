@@ -1,10 +1,10 @@
 "use client";
 
-import { ChangeEvent, useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { type ChangeEvent, useMemo, useState } from "react";
 
+import type { IBook as Book } from "@/actions/user/actions";
 import { Button } from "@/components/ui/button";
-import { IBook as Book } from "@/actions/user/actions";
 import Link from "next/link";
 
 interface Filters {

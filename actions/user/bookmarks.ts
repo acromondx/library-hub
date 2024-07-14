@@ -1,6 +1,6 @@
 "use server";
 import db from "@/db/db";
-import { Bookmark, User } from "@prisma/client";
+import type { Bookmark, User } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
 

@@ -2,7 +2,7 @@
 
 import db from "@/db/db";
 
-export type BookType =  {
+export type BookType = {
   id: string;
   title: string;
   author: string;
@@ -12,7 +12,7 @@ export type BookType =  {
   isbn: string;
   availableCopies: number;
   pictureUrl: string;
-}
+};
 
 export async function getBookById(id: string): Promise<BookType> {
   const book = await db.book.findFirst({
@@ -33,4 +33,18 @@ export async function getBookById(id: string): Promise<BookType> {
     availableCopies: book.copies,
     pictureUrl: book.pictureUrl,
   };
+}
+
+async function searchBooks(query: string) {
+  return db.book.findMany({
+    where: {
+      OR: [
+        { title: { contains: query } },
+        { description: { contains: query } },
+        { author: { name: { contains: query } } },
+        { category: { name: { contains: query } } },
+      ],
+    },
+    include: { author: true, category: true },
+  });
 }

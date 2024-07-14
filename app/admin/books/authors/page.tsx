@@ -1,8 +1,8 @@
-import { DashboardHeader } from "@/components/shared/DashboardHeader";
-import { PlusCircleIcon } from "lucide-react";
-import { LinkButton } from "@/components/shared/buttons";
 import { getAllAuthors } from "@/actions/admin/author";
 import { CategoryOrAuthorCard } from "@/components/admin/CategoryOrAuthorCard";
+import { DashboardHeader } from "@/components/shared/DashboardHeader";
+import { LinkButton } from "@/components/shared/buttons";
+import { PlusCircleIcon } from "lucide-react";
 
 export default async function NewProductPage() {
   const authors = await getAllAuthors();

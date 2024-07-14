@@ -1,12 +1,12 @@
 "use server";
 
 import db from "@/db/db";
-import { z } from "zod";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { AddCategorySchema } from "@/lib/schema/admin";
 import { Errors } from "@/lib/errors";
+import { AddCategorySchema } from "@/lib/schema/admin";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import type { z } from "zod";
 
 export async function addCategory(rawInput: z.infer<typeof AddCategorySchema>) {
   // const result = AddCategorySchema.safeParse(

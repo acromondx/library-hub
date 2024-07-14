@@ -1,8 +1,8 @@
-import { BookOpenTextIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Link from "next/dist/client/link";
-import { Author, Category } from "@prisma/client";
 import { Card } from "@/components/ui/card";
+import type { Author, Category } from "@prisma/client";
+import { BookOpenTextIcon } from "lucide-react";
+import Link from "next/dist/client/link";
 import { CardActions } from "./Sections/CardActions";
 
 export function CategoryOrAuthorCard({

@@ -1,12 +1,12 @@
 "use server";
 
 import db from "@/db/db";
-import { notFound, redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { imageDb } from "@/lib/firebase";
 import { AddBookSchema, UpdateBookSchema } from "@/lib/schema/admin";
-import { z } from "zod";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { revalidatePath } from "next/cache";
+import { notFound, redirect } from "next/navigation";
+import type { z } from "zod";
 
 export async function addBook(rawData: z.infer<typeof AddBookSchema>) {
   const data = AddBookSchema.parse(rawData);
@@ -69,7 +69,7 @@ export async function updateBook(
   const book = await db.book.findUnique({ where: { id } });
   if (book == null) return notFound();
 
-  let updateData: any = {
+  const updateData: any = {
     title: data.title,
     copies: data.copies,
     description: data.description,

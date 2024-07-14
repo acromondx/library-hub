@@ -1,6 +1,6 @@
 "use client";
-import Link from "next/link";
 import { Bell, Package2 } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -10,9 +10,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useSelectedLayoutSegment } from "next/navigation";
+import type { SidebarNavigation } from "@/config/navigation";
 import { cn } from "@/lib/utils";
-import { SidebarNavigation } from "@/config/navigation";
+import { useSelectedLayoutSegment } from "next/navigation";
 
 export function Sidebar({
   sidebarNavigation,
@@ -38,7 +38,7 @@ export function Sidebar({
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
             {sidebarNavigation.map((item, index) => {
               const Icon = item.icon;
-              let isActive = item.href.includes(String(segment));
+              const isActive = item.href.includes(String(segment));
               return (
                 <Link
                   aria-label={item.name}

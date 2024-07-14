@@ -1,9 +1,7 @@
 "use client";
 
+import { submitRequest } from "@/actions/user/actions";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Author } from "@prisma/client";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -12,13 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { SubmitRequestSchema } from "@/lib/schema/user";
-import { submitRequest } from "@/actions/user/actions";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -26,6 +18,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { SubmitRequestSchema } from "@/lib/schema/user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { Author } from "@prisma/client";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type { z } from "zod";
 
 export function SubmitRequestForm({ author }: { author?: Author | null }) {
   const router = useRouter();

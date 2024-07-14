@@ -1,6 +1,6 @@
 "use server";
 import db from "@/db/db";
-import { Book, Reservation } from "@prisma/client";
+import type { Book, Reservation } from "@prisma/client";
 
 interface ReservedBook extends Book {
   reservation: {

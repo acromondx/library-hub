@@ -1,10 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Category } from "@prisma/client";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { addCategory, updateCategory } from "@/actions/admin/category";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -13,12 +11,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Errors } from "@/lib/errors";
+import {
+  AddCategorySchema,
+  type AddCategorySchemaType,
+} from "@/lib/schema/admin";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { Category } from "@prisma/client";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
-import { AddCategorySchema, AddCategorySchemaType } from "@/lib/schema/admin";
-import { Errors } from "@/lib/errors";
 
 export function AddOrUpdateCategoryForm({
   category,

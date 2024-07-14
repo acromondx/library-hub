@@ -1,10 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Author } from "@prisma/client";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { addAuthor, updateAuthor } from "@/actions/admin/author";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -13,12 +11,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { AddAuthorSchema, type AddAuthorSchemaType } from "@/lib/schema/admin";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { Author } from "@prisma/client";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { AddAuthorSchema, AddAuthorSchemaType } from "@/lib/schema/admin";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export function AddOrUpdateAuthorForm({ author }: { author?: Author | null }) {
   const router = useRouter();

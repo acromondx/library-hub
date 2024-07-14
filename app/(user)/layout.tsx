@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { CircleUser, Search } from "lucide-react";
+import { MobileSidebar } from "@/components/shared/MobileSidebar";
+import { Sidebar } from "@/components/shared/Sidebar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,9 +10,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Sidebar } from "@/components/shared/Sidebar";
-import { MobileSidebar } from "@/components/shared/MobileSidebar";
 import { userSidebarNavigation } from "@/config/navigation";
+import { CircleUser, Search } from "lucide-react";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Library Hub",

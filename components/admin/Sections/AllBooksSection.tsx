@@ -1,12 +1,11 @@
 "use client";
 
-import * as React from "react";
 import { ChevronDownIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
+  type ColumnDef,
+  type ColumnFiltersState,
+  type SortingState,
+  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -14,8 +13,11 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import * as React from "react";
 
+import { deleteBookById } from "@/actions/admin/book";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -25,7 +27,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -35,11 +36,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useParams, useRouter } from "next/navigation";
+import type { Author, Book, Category } from "@prisma/client";
 import { Edit3, EyeIcon, Search, Trash2 } from "lucide-react";
-import { Author, Book, Category } from "@prisma/client";
 import Link from "next/link";
-import { deleteBookById } from "@/actions/admin/book";
 
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -123,7 +122,7 @@ export const columns: ColumnDef<Book>[] = [
     cell: ({ row }) => {
       return (
         <div className="text-center font-medium">
-          {parseFloat(row.getValue("copies"))}
+          {Number.parseFloat(row.getValue("copies"))}
         </div>
       );
     },
@@ -189,11 +188,8 @@ export default function AllBooksSection({ books }: { books: Book[] }) {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
-  const router = useRouter();
-  const urlParams = useParams();
-
   const table = useReactTable({
-    data: books!,
+    data: books,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

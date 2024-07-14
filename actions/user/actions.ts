@@ -1,7 +1,7 @@
 "use server";
 import db from "@/db/db";
 import { SubmitRequestSchema } from "@/lib/schema/user";
-import {
+import type {
   Author,
   Book,
   Category,
@@ -9,7 +9,7 @@ import {
   RequestType,
   Reservation,
 } from "@prisma/client";
-import { z } from "zod";
+import type { z } from "zod";
 
 export interface IBook {
   id: string;

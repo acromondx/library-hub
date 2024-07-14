@@ -1,6 +1,6 @@
-import { Button } from "../ui/button";
+import { ArrowLeftIcon, type LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { ArrowLeftIcon, LucideIcon } from "lucide-react";
+import { Button } from "../ui/button";
 
 export function BackButton({
   href,
