@@ -42,7 +42,7 @@ export function Sidebar({
               return (
                 <Link
                   aria-label={item.name}
-                  key={index}
+                  key={item.href}
                   href={item.href}
                   className={cn(
                     isActive

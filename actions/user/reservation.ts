@@ -2,7 +2,7 @@
 import db from "@/db/db";
 import type { Book, Reservation } from "@prisma/client";
 
-interface ReservedBook extends Book {
+export interface ReservedBook extends Book {
   reservation: {
     id: string;
     reservedAt: Date;
@@ -54,8 +54,8 @@ export async function reserveBook({
   });
 }
 
-export async function getReservedBooks(
-  userId: string,
+export async function getReservedBooksByUser(
+  {userId}: {userId: string},
 ): Promise<ReservedBook[]> {
   const reservations = await db.reservation.findMany({
     where: {
@@ -78,8 +78,8 @@ export async function getReservedBooks(
 }
 
 export async function cancelReservation(
-  userId: string,
-  reservationId: string,
+{userId, reservationId}:{  userId: string,
+  reservationId: string,}
 ): Promise<void> {
   const reservation = await db.reservation.findUnique({
     where: { id: reservationId },

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 
 export const RenderIMGEl = ({
   logo,
@@ -19,7 +18,7 @@ export const RenderIMGEl = ({
             marginLeft: 10,
           }}
         >
-          {locale ? "/" + locale : ""}
+          {locale ? `/${locale}` : ""}
         </div>
       </div>
       <img src={image} alt="LibraryHub Logo" tw=" rounded-lg" />
