@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import type { SidebarNavigation } from "@/config/navigation";
 import { cn } from "@/lib/utils";
-import { Library, Menu } from "lucide-react";
+import { BookMarkedIcon, Library, Menu } from "lucide-react";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 
@@ -24,12 +24,12 @@ export function MobileSidebar({
       </SheetTrigger>
       <SheetContent side="left" className="flex flex-col">
         <nav className="grid gap-2 text-lg font-medium">
-          <Link
-            href="#"
-            className="flex items-center gap-2 text-lg font-semibold"
-          >
-            <Library className="h-6 w-6" />
-            <span className="sr-only">Acme Inc</span>
+        <Link href="/" className="flex items-center gap-2 font-semibold mb-4">
+            <div className="p-2 bg-primary text-white rounded-md">
+              {" "}
+              <BookMarkedIcon className="size-3" />
+            </div>{" "}
+            <span className="">LibraryHub</span>
           </Link>
 
           {sidebarNavigation.map((item, index) => {

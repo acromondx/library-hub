@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { SubmitRequestSchema } from "@/lib/schema/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Author } from "@prisma/client";
@@ -56,20 +57,7 @@ export function SubmitRequestForm({ author }: { author?: Author | null }) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-4"
         >
-          <FormField
-            disabled={isLoading}
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+
 
           <FormField
             control={form.control}
@@ -97,6 +85,21 @@ export function SubmitRequestForm({ author }: { author?: Author | null }) {
                   </SelectContent>
                 </Select>
 
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+<FormField
+            disabled={isLoading}
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Request description</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Example: I need this book xyz" {...field} rows={5} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

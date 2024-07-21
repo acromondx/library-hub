@@ -1,34 +1,27 @@
-"use client";
+'use client'
+import { Icon } from "@phosphor-icons/react/dist/lib/types";
+import { Bookmarks,Books,GitPullRequest , Sparkle ,SquaresFour , Stack ,TrendUp,User  ,UsersThree ,} from "@phosphor-icons/react/dist/ssr";
 
-import {
-  BookmarkIcon,
-  LayoutDashboardIcon,
-  LibraryBigIcon,
-  LineChart,
-  type LucideIcon,
-  Package,
-  User,
-  Users,
-} from "lucide-react";
 
 export interface SidebarNavigation {
   name: string;
-  icon: LucideIcon;
+  icon: Icon;
   href: string;
 }
 
 export const adminSidebarNavigation: SidebarNavigation[] = [
-  { name: "Overview", icon: LayoutDashboardIcon, href: "/admin/overview" },
-  { name: "Books", icon: LibraryBigIcon, href: "/admin/books" },
-  { name: "Requests", icon: Package, href: "/admin/requests" },
-  { name: "Users", icon: Users, href: "/admin/users" },
-  { name: "Analytics", icon: LineChart, href: "/admin/analytics" },
+  { name: "Overview", icon: SquaresFour , href: "/admin/overview" },
+  { name: "Books", icon: Books, href: "/admin/books" },
+  { name: "Requests", icon: GitPullRequest , href: "/admin/requests" },
+  { name: "Users", icon: UsersThree , href: "/admin/users" },
+  { name: "Analytics", icon: TrendUp , href: "/admin/analytics" },
 ];
 
 export const userSidebarNavigation: SidebarNavigation[] = [
-  { name: "Books", icon: LayoutDashboardIcon, href: "/books" },
-  { name: "Reservations", icon: LibraryBigIcon, href: "/reservations" },
-  { name: "Requests", icon: Package, href: "/requests" },
-  { name: "Bookmarks", icon: BookmarkIcon, href: "/bookmarks" },
-  { name: "Account", icon: User, href: "/analytics" },
+  { name: "Books", icon: Books, href: "/books" },
+  { name: "Reservations", icon: Stack , href: "/reservations" },
+  { name: "Loans", icon: Sparkle , href: "/loans" },
+  { name: "Requests", icon: GitPullRequest , href: "/requests" },
+  { name: "Bookmarks", icon: Bookmarks , href: "/bookmarks" },
+  { name: "Account", icon: User , href: "/account" },
 ];

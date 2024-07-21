@@ -30,3 +30,18 @@ export function prettifyDate(date: Date) {
   
   return formattedDate;
 }
+
+export function wordifyDate(date: Date | null | undefined) {
+  if (!date) {
+    return null; // Return an empty string or a placeholder for null/undefined dates
+  }
+
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  
+  const day = date.getDate();
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+
+  return `${day} ${month}, ${year}`;
+}

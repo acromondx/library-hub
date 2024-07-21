@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-// import { Inter } from "next/font/google";
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 import { Toaster } from "sonner";
 
 import "./globals.css";
@@ -11,7 +12,7 @@ import { cn } from "@/lib/utils";
 //   variable: "--font-heading",
 // });
 
-// const fontBody = Inter({
+// const fontBody = GeistSans({
 //   subsets: ["latin"],
 //   display: "swap",
 //   variable: "--font-body",
@@ -30,11 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn(
-          "antialiased",
-          // fontHeading.variable,
-          // fontBody.variable
-        )}
+        className={cn("antialiased", GeistSans.className)}
       >
         {children}
       </body>

@@ -1,12 +1,13 @@
+"use server";
 import db from "@/db/db";
-import type { Loan } from "@prisma/client";
+import { LoanStatus, type Loan } from "@prisma/client";
 
-// Create a new loan
-async function createLoan(
-  userId: string,
-  bookId: string,
-  dueDate: Date,
-): Promise<Loan> {
+export async function createLoan({
+  userId,
+  bookId,
+}: { userId: string; bookId: string }): Promise<Loan> {
+  const dueDate = new Date();
+  dueDate.setDate(dueDate.getDate() + 3);
   return db.loan.create({
     data: {
       userId,
@@ -16,8 +17,7 @@ async function createLoan(
   });
 }
 
-// Get all loans
-async function getAllLoans(): Promise<Loan[]> {
+export async function getAllLoans(): Promise<Loan[]> {
   return db.loan.findMany({
     include: {
       user: true,
@@ -26,20 +26,51 @@ async function getAllLoans(): Promise<Loan[]> {
   });
 }
 
-// Get loans by user
-async function getLoansByUser(userId: string): Promise<Loan[]> {
-  return db.loan.findMany({
+export interface LoanedBook {
+  id: string;
+  userName: string ;
+  bookId: string;
+  bookTitle: string;
+  loanStatus: LoanStatus;
+  loanedAt: Date | null;
+  dueDate: Date | null ;
+  returnedAt: Date | null;
+}
+
+export async function getLoansByUser(userId: string): Promise<LoanedBook[]> {
+  const loans = await db.loan.findMany({
     where: {
       userId: userId,
     },
-    include: {
-      book: true,
+    select: {
+      id: true,
+      bookId: true,
+      book: {
+        select: {
+          title: true,
+        },
+      },
+      user: {select: {name: true}},
+      status: true,
+      loanedAt: true,
+      dueDate: true,
+      returnedAt: true,
     },
   });
+
+  return loans.map(loan => ({
+    id: loan.id,
+    userName: loan.user.name ?? 'n/a',
+    bookId: loan.bookId,
+    bookTitle: loan.book.title,
+    loanStatus: loan.status,
+    loanedAt: loan.loanedAt,
+    dueDate: loan.dueDate,
+    returnedAt: loan.returnedAt,
+  }));
 }
 
-// Get active loans (not returned)
-async function getActiveLoans(): Promise<Loan[]> {
+export async function getActiveLoans(): Promise<Loan[]> {
   return db.loan.findMany({
     where: {
       returnedAt: null,
@@ -51,8 +82,27 @@ async function getActiveLoans(): Promise<Loan[]> {
   });
 }
 
-// Get overdue loans
-async function getOverdueLoans(): Promise<Loan[]> {
+export async function isLoanSubmitted({
+  userId,
+  bookId,
+}: {
+  userId: string;
+  bookId: string;
+}): Promise<boolean> {
+  const loan = await db.loan.findFirst({
+    where: {
+      userId: userId,
+      bookId: bookId,
+      status: {
+        in: [LoanStatus.PENDING, LoanStatus.ACTIVE, LoanStatus.OVERDUE],
+      },
+    },
+  });
+
+  return !!loan;
+}
+
+export async function getOverdueLoans(): Promise<Loan[]> {
   const currentDate = new Date();
   return db.loan.findMany({
     where: {
@@ -68,8 +118,7 @@ async function getOverdueLoans(): Promise<Loan[]> {
   });
 }
 
-// Return a book
-async function returnBook(loanId: string): Promise<Loan> {
+export async function returnBook(loanId: string): Promise<Loan> {
   return db.loan.update({
     where: {
       id: loanId,
@@ -80,8 +129,7 @@ async function returnBook(loanId: string): Promise<Loan> {
   });
 }
 
-// Extend loan due date
-async function extendLoanDueDate(
+export async function extendLoanDueDate(
   loanId: string,
   newDueDate: Date,
 ): Promise<Loan> {
@@ -95,8 +143,7 @@ async function extendLoanDueDate(
   });
 }
 
-// Get loan details
-async function getLoanDetails(loanId: string): Promise<Loan | null> {
+export async function getLoanDetails(loanId: string): Promise<Loan | null> {
   return db.loan.findUnique({
     where: {
       id: loanId,
@@ -108,8 +155,7 @@ async function getLoanDetails(loanId: string): Promise<Loan | null> {
   });
 }
 
-// Delete a loan (use with caution)
-async function deleteLoan(loanId: string): Promise<Loan> {
+export async function deleteLoan(loanId: string): Promise<Loan> {
   return db.loan.delete({
     where: {
       id: loanId,

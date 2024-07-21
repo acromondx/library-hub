@@ -56,11 +56,11 @@ export default function AllBooksSection({ books }: { books: Book[] }) {
         return sortOrder === "asc"
           ? fieldA.localeCompare(fieldB)
           : fieldB.localeCompare(fieldA);
-      } else if (typeof fieldA === "number" && typeof fieldB === "number") {
-        return sortOrder === "asc" ? fieldA - fieldB : fieldB - fieldA;
-      } else {
-        return 0;
       }
+      if (typeof fieldA === "number" && typeof fieldB === "number") {
+        return sortOrder === "asc" ? fieldA - fieldB : fieldB - fieldA;
+      }
+      return 0;
     });
 
     return result;
@@ -150,21 +150,4 @@ export default function AllBooksSection({ books }: { books: Book[] }) {
   );
 }
 
-function ChevronDownIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
-  );
-}
+

@@ -1,13 +1,20 @@
-import type { NextAuthConfig } from "next-auth";
-import Resend from "next-auth/providers/resend";
-
-// import { env } from "@/env.mjs";
+import { NextAuthConfig } from 'next-auth';
+import EmailProvider from 'next-auth/providers/email';
 
 export default {
-  providers: [
-    Resend({
-      apiKey: process.env.RESEND_API_KEY,
-      from: "Next Template App <onboarding@resend.dev>",
-    }),
-  ],
-} satisfies NextAuthConfig;
+    providers: [
+        EmailProvider({
+            id: 'email',
+            name: 'email',
+            server: {
+                host: process.env.EMAIL_SERVER_HOST,
+                port: process.env.EMAIL_SERVER_PORT,
+                auth: {
+                    user: process.env.EMAIL_SERVER_USER,
+                    pass: process.env.EMAIL_SERVER_PASSWORD
+                }
+            },
+            from: process.env.EMAIL_FROM,
+        })
+    ]
+} satisfies NextAuthConfig

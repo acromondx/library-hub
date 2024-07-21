@@ -92,14 +92,15 @@ model Category {
 }
 
 model Loan {
-  id         String    @id @default(cuid())
+  id         String     @id @default(cuid())
   userId     String
   bookId     String
-  loanedAt   DateTime  @default(now())
+  status     LoanStatus @default(PENDING)
+  loanedAt   DateTime?
   dueDate    DateTime
   returnedAt DateTime?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 
   user User @relation("UserLoans", fields: [userId], references: [id])
   book Book @relation("BookLoans", fields: [bookId], references: [id])
@@ -133,6 +134,14 @@ model Request {
 enum UserRole {
   USER
   ADMIN
+}
+
+enum LoanStatus {
+  PENDING
+  ACTIVE
+  OVERDUE
+  RETURNED
+  CANCELLED
 }
 
 enum RequestType {

@@ -1,5 +1,7 @@
-import { SubmitRequestForm } from "@/components/user/Forms/SubmitRequestForm";
+import { getUserRequests } from "@/actions/user/requests";
+import UserRequestsSection from "@/components/user/Sections/UserRequestsSection";
 
-export default function page() {
-  return <SubmitRequestForm />;
+export default async function page() {
+  const userRequests = await getUserRequests();
+return <UserRequestsSection requests={userRequests}/>;
 }

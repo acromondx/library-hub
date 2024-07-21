@@ -1,31 +1,39 @@
 "use client";
 import type { BookType } from "@/actions/user/book";
 import { toggleBookmark } from "@/actions/user/bookmarks";
+import { createLoan } from "@/actions/user/loan";
 import { reserveBook } from "@/actions/user/reservation";
-import { getUser } from "@/actions/user/user";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { BookmarkCheckIcon, BookmarkPlus } from "lucide-react";
+import { AlertCircle, BookmarkCheckIcon, BookmarkPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function BookDetailsSection({
   book,
-
   userId,
   isBookmarkedByUser,
   isReservedByUser,
+  isLoanSubmitted,
+  isBookAvailableLoan,
 }: {
   book: BookType;
   userId: string;
   isBookmarkedByUser: boolean;
   isReservedByUser: boolean;
+  isLoanSubmitted: boolean;
+  isBookAvailableLoan: boolean;
 }) {
   const router = useRouter();
 
   const handleReserveBook = async (bookId: string) => {
-    await reserveBook({
-      userId: userId,
-      bookId: bookId,
-    });
+    if (isBookAvailableLoan) {
+      await createLoan({ userId: userId, bookId: book.id });
+    } else {
+      await reserveBook({
+        userId: userId,
+        bookId: bookId,
+      });
+    }
 
     router.refresh();
   };
@@ -75,19 +83,26 @@ export default function BookDetailsSection({
             <p>{book.description}</p>
           </div>
           <div className="flex gap-4">
-            <Button
-              disabled={isReservedByUser}
-              size="lg"
-              onClick={() => handleReserveBook(book.id)}
-            >
-              {isReservedByUser ? "Reserved" : "Reserve Book"}
-            </Button>
+            {!isLoanSubmitted ? (
+              <Button
+                disabled={isReservedByUser}
+                size="lg"
+                onClick={() => handleReserveBook(book.id)}
+              >
+                {!isBookAvailableLoan &&
+                  (isReservedByUser ? "Reserved" : "Reserve Book")}
+                {isBookAvailableLoan && "Get book"}
+              </Button>
+            ) : (
+              <Button disabled size="lg">
+                Loan Submitted
+              </Button>
+            )}
             <Button
               variant="outline"
               size="lg"
               onClick={async () => {
-                const user = await getUser();
-                await toggleBookmark({ bookId: book.id, userId: user });
+                await toggleBookmark({ bookId: book.id, userId: userId });
               }}
             >
               {isBookmarkedByUser ? (
@@ -98,6 +113,15 @@ export default function BookDetailsSection({
               {isBookmarkedByUser ? "Bookmarked" : "Bookmark"}
             </Button>
           </div>
+          {isLoanSubmitted && (
+            <Alert variant="default">
+              <AlertCircle className="h-4 w-4" />
+              <AlertTitle>You've submitted a loan this book </AlertTitle>
+              <AlertDescription>
+                Please wait while we process your submission{" "}
+              </AlertDescription>
+            </Alert>
+          )}
         </div>
       </div>
     </div>

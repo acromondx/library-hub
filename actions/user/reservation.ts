@@ -26,10 +26,6 @@ export async function reserveBook({
     throw new Error("Book not found");
   }
 
-  if (book.loans.length >= book.copies) {
-    throw new Error("No copies available for reservation");
-  }
-
   const existingReservation = await db.reservation.findFirst({
     where: {
       userId,

@@ -90,7 +90,8 @@ export function AddOrUpdateBookForm({
       setImagePreviewUrl(imageUrl);
 
       return () => URL.revokeObjectURL(imageUrl);
-    } else if (book?.pictureUrl) {
+    }
+    if (book?.pictureUrl) {
       setImagePreviewUrl(book.pictureUrl);
     }
   }, [currentSelectedImage, book?.pictureUrl]);

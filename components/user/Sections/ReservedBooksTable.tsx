@@ -20,13 +20,15 @@ export function ReservedBooksTable({
   userId,
   reservedBooks,
 }: { userId: string; reservedBooks: ReservedBook[] }) {
+  const router = useRouter();
 
-    const router = useRouter();
-  const handleRemoveFromReservedBooks = async (reservationId: string) => {
+  const handleCancelReservation = async (reservationId: string) => {
     try {
       await cancelReservation({ userId: userId, reservationId: reservationId });
-   router.refresh()
-    } catch (error) {}
+      router.refresh();
+    } catch (error) {
+      console.error("Error canceling reservation:", error);
+    }
   };
 
   return (
@@ -58,9 +60,16 @@ export function ReservedBooksTable({
             </TableCell>
 
             <TableCell className="text-right">
-              <Button variant="outline" size="sm" className="text-destructive" onClick={()=>handleRemoveFromReservedBooks(reservedBook.reservation.id)}>
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-destructive"
+                onClick={() =>
+                  handleCancelReservation(reservedBook.reservation.id)
+                }
+              >
                 {" "}
-                Remove
+                Cancel
               </Button>
             </TableCell>
           </TableRow>
