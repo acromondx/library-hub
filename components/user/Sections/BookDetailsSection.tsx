@@ -116,7 +116,7 @@ export default function BookDetailsSection({
           {isLoanSubmitted && (
             <Alert variant="default">
               <AlertCircle className="h-4 w-4" />
-              <AlertTitle>You've submitted a loan this book </AlertTitle>
+              <AlertTitle>You`&apos;`ve submitted a loan this book </AlertTitle>
               <AlertDescription>
                 Please wait while we process your submission{" "}
               </AlertDescription>
