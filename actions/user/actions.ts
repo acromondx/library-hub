@@ -7,7 +7,6 @@ import type {
   Category,
   Loan,
   RequestType,
-  Reservation,
 } from "@prisma/client";
 import type { z } from "zod";
 
@@ -62,32 +61,7 @@ export const getAllBooks = async (): Promise<IBook[]> => {
   return formattedBooks;
 };
 
-export const reserveBook = async (
-  userId: string,
-  bookId: string,
-  expiresAt: Date,
-): Promise<Reservation> => {
-  const reservation = await db.reservation.create({
-    data: {
-      userId,
-      bookId,
-      expiresAt,
-    },
-  });
-  return reservation;
-};
 
-export const getAllReservedBooksByUser = async (
-  userId: string,
-): Promise<Reservation[]> => {
-  const reservations = await db.reservation.findMany({
-    where: { userId },
-    include: {
-      book: true,
-    },
-  });
-  return reservations;
-};
 
 export const getAllLoansByUser = async (userId: string): Promise<Loan[]> => {
   const loans = await db.loan.findMany({

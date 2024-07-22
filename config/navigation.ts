@@ -1,6 +1,6 @@
 'use client'
 import { Icon } from "@phosphor-icons/react/dist/lib/types";
-import { Bookmarks,Books,Compass,GitPullRequest  , Sparkle ,SquaresFour , Stack ,TrendUp,User  ,UsersThree ,} from "@phosphor-icons/react/dist/ssr";
+import { Bookmarks, Books, Compass, GitPullRequest, Sparkle, SquaresFour , TrendUp,User  ,UsersThree ,} from "@phosphor-icons/react/dist/ssr";
 
 
 export interface SidebarNavigation {
@@ -19,7 +19,7 @@ export const adminSidebarNavigation: SidebarNavigation[] = [
 
 export const userSidebarNavigation: SidebarNavigation[] = [
   { name: "Browse", icon: Compass , href: "/books" },
-  { name: "Reservations", icon: Stack , href: "/reservations" },
+  // { name: "Reservations", icon: Stack , href: "/reservations" },
   { name: "Loans", icon: Sparkle , href: "/loans" },
   { name: "Requests", icon: GitPullRequest , href: "/requests" },
   { name: "Bookmarks", icon: Bookmarks , href: "/bookmarks" },
