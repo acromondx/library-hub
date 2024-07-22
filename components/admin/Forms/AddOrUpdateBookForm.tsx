@@ -43,6 +43,8 @@ import type { z } from "zod";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { imageDb } from "@/lib/firebase";
 
 export function AddOrUpdateBookForm({
   book,
@@ -98,20 +100,31 @@ export function AddOrUpdateBookForm({
 
   async function onSubmit(data: AddBookSchemaType | UpdateBookSchemaType) {
     try {
-      console.log(data);
-
+      let imageUrl = '';
+      if (data.image instanceof File) {
+        const fileRef = ref(imageDb, `libraryhub/${crypto.randomUUID()}`);
+        await uploadBytes(fileRef, data.image);
+        imageUrl = await getDownloadURL(fileRef);
+      }
+  
+      const submitData = {
+        ...data,
+        image: imageUrl || book?.pictureUrl || '',
+      };
+  
       if (book) {
-        await updateBook(book.id, data as UpdateBookSchemaType);
+        await updateBook(book.id, submitData as unknown as UpdateBookSchemaType);
         toast.success("Book updated.");
       } else {
-        await addBook(data as AddBookSchemaType);
+        await addBook(submitData as unknown as AddBookSchemaType);
         toast.success("Book added.");
       }
-
+  
       form.reset();
       router.refresh();
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      toast.error("An error occurred while submitting the form.");
     }
   }
 

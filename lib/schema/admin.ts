@@ -1,10 +1,7 @@
 import { z } from "zod";
 
-//schemas
 
-export const ImageSchema = z
-  .instanceof(File, { message: "Required" })
-  .refine((file) => file.size === 0 || file.type.startsWith("image/"));
+export const ImageSchema = z.union([z.string().url(), z.instanceof(File)]);
 
 export const AddBookSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),

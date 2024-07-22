@@ -1,24 +1,15 @@
 "use server";
 
 import db from "@/db/db";
-import { imageDb } from "@/lib/firebase";
 import { AddBookSchema, UpdateBookSchema } from "@/lib/schema/admin";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { revalidatePath } from "next/cache";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import type { z } from "zod";
 
 export async function addBook(rawData: z.infer<typeof AddBookSchema>) {
   const data = AddBookSchema.parse(rawData);
 
   try {
-    let pictureUrl = "";
-
-    if (data.image) {
-      const fileRef = ref(imageDb, `libraryhub/${crypto.randomUUID()}`);
-      await uploadBytes(fileRef, data.image);
-      pictureUrl = await getDownloadURL(fileRef);
-    }
 
     await db.book.create({
       data: {
@@ -29,17 +20,17 @@ export async function addBook(rawData: z.infer<typeof AddBookSchema>) {
         publishedAt: data.publishedAt,
         authorId: data.authorId,
         categoryId: data.categoryId,
-        pictureUrl: pictureUrl,
+        pictureUrl: data.image as string, 
       },
     });
 
     revalidatePath("/admin/books");
-    redirect("/admin/books");
+    // redirect("/admin/books");
   } catch (error) {
     console.error("Error adding book:", error);
     throw new Error((error as Error).message);
   }
-
+}
   // } catch (error) {
   //   if (
   // error instanceof PrismaClientKnownRequestError &&
@@ -54,7 +45,7 @@ export async function addBook(rawData: z.infer<typeof AddBookSchema>) {
   //     throw new Error((error as Error).message);
   //   }
   // }
-}
+// }
 
 export async function updateBook(
   id: string,
@@ -77,17 +68,10 @@ export async function updateBook(
     isbn: data.isbn,
     authorId: data.authorId,
     categoryId: data.categoryId,
+    pictureUrl: data.image as string, 
+
   };
 
-  if (data.image) {
-    if (data.image.type.startsWith("image/")) {
-      console.log("🔥 firebase ++++++++++");
-      const fileRef = ref(imageDb, `libraryhub/${crypto.randomUUID()}`);
-      await uploadBytes(fileRef, data.image);
-      const pictureUrl = await getDownloadURL(fileRef);
-      updateData.pictureUrl = pictureUrl;
-    }
-  }
 
   console.log("prisma ++++++++++");
   console.log(updateData);
@@ -98,7 +82,7 @@ export async function updateBook(
   });
 
   revalidatePath("/admin/books");
-  redirect("/admin/books");
+  // redirect("/admin/books");
 }
 
 export async function getAllBooks() {
