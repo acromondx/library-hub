@@ -1,6 +1,6 @@
 "use server";
 import db from "@/db/db";
-import { LoanStatus, type Loan } from "@prisma/client";
+import { type Loan, LoanStatus } from "@prisma/client";
 
 export async function createLoan({
   userId,

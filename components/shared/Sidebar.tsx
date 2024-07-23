@@ -1,5 +1,5 @@
 "use client";
-import { Bell, BookMarkedIcon } from "lucide-react";
+import { Bell } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
@@ -47,7 +47,7 @@ export function Sidebar({
                       : "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
                   )}
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="size-5"  weight="duotone"/>
                   {item.name}
                 </Link>
               );

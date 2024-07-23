@@ -52,8 +52,8 @@ export async function updateCategory(
     });
   }
 
-  revalidatePath("/admin/books/categorys");
-  redirect("/admin/books/categorys");
+  revalidatePath("/admin/books/categories");
+  redirect("/admin/books/categories");
 }
 
 export async function getCategoryById({ id }: { id: string }) {

@@ -1,6 +1,5 @@
 "use client";
 
-import { ChevronDownIcon } from "@radix-ui/react-icons";
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -16,13 +15,8 @@ import {
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+
+
 import {
   Table,
   TableBody,
@@ -32,9 +26,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { Request, RequestStatus } from "@prisma/client";
-import { Search } from "lucide-react";
 import { wordifyDate } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+  } from "@/components/ui/tooltip"
+import { DashboardHeader } from "@/components/shared/DashboardHeader";
+import { LinkButton } from "@/components/shared/buttons";
+import { Plus } from "@phosphor-icons/react";
 
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -66,7 +67,14 @@ export const columns: ColumnDef<Request>[] = [
   {
     accessorKey: "createdAt",
     header: "Date",
-    cell: ({ row }) => <div>{wordifyDate(row.getValue("createdAt"))}</div>,
+    cell: ({ row }) => 
+  <Tooltip>
+    <TooltipTrigger className="w-22">{wordifyDate(row.getValue("createdAt"))}</TooltipTrigger>
+    <TooltipContent>
+      <p>{formatDate(row.getValue("createdAt"))}</p>
+    </TooltipContent>
+  </Tooltip>
+
   },
 //   {
 //     accessorKey: "id",
@@ -77,9 +85,9 @@ export const columns: ColumnDef<Request>[] = [
     accessorKey: "type",
     header: "Request Type",
     cell: ({ row }) => (
-      <div className="capitalize">
+      <Badge className=" bg-white rounded shadow-none border-gray-700/[0.2] text-xs font-normal uppercase text-gray-700">
         {(row.getValue("type") )}
-      </div>
+      </Badge>
     ),
   },
   {
@@ -115,7 +123,6 @@ export default function UserRequestsSection({ requests }: { requests: Request[] 
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data: requests,
@@ -127,58 +134,18 @@ export default function UserRequestsSection({ requests }: { requests: Request[] 
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection,
     },
   });
 
   return (
     <div className="w-full">
-      <div className="mx-1 flex items-center py-4">
-        <div className="relative">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Filter by ISBN..."
-            type="search"
-            value={(table.getColumn("isbn")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("isbn")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm appearance-none bg-background pl-8 shadow-none"
-          />
-        </div>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto" size={"sm"}>
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+        <DashboardHeader title="Requests" >
+            <LinkButton title="New" href="/requests/new" icon={Plus}/>
+        </DashboardHeader>
       <div className="rounded-md border">
         <Table>
           <TableHeader>

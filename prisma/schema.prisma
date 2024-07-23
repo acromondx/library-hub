@@ -35,7 +35,7 @@ model User {
 
   role                   UserRole                 @default(USER)
   loans                  Loan[]                   @relation("UserLoans")
-  reservations           Reservation[]
+  // reservations           Reservation[]
   requests               Request[]
   bookmarks              Bookmark[]
   createdAt              DateTime                 @default(now())
@@ -45,22 +45,22 @@ model User {
 }
 
 model Book {
-  id           String        @id @default(cuid())
-  title        String
-  description  String        @db.Text
-  isbn         String        @unique
-  publishedAt  DateTime
-  authorId     String
-  categoryId   String
-  copies       Int
-  pictureUrl   String
-  loans        Loan[]        @relation("BookLoans")
-  reservations Reservation[]
-  bookmarks    Bookmark[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  author       Author        @relation(fields: [authorId], references: [id])
-  category     Category      @relation(fields: [categoryId], references: [id])
+  id          String     @id @default(cuid())
+  title       String
+  description String     @db.Text
+  isbn        String     @unique
+  publishedAt DateTime
+  authorId    String
+  categoryId  String
+  copies      Int
+  pictureUrl  String
+  loans       Loan[]     @relation("BookLoans")
+  // reservations Reservation[]
+  bookmarks   Bookmark[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  author      Author     @relation(fields: [authorId], references: [id])
+  category    Category   @relation(fields: [categoryId], references: [id])
 }
 
 model Bookmark {
@@ -106,18 +106,18 @@ model Loan {
   book Book @relation("BookLoans", fields: [bookId], references: [id])
 }
 
-model Reservation {
-  id         String   @id @default(cuid())
-  userId     String
-  bookId     String
-  reservedAt DateTime @default(now())
-  expiresAt  DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+// model Reservation {
+//   id         String   @id @default(cuid())
+//   userId     String
+//   bookId     String
+//   reservedAt DateTime @default(now())
+//   expiresAt  DateTime
+//   createdAt  DateTime @default(now())
+//   updatedAt  DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
-  book Book @relation(fields: [bookId], references: [id])
-}
+//   user User @relation(fields: [userId], references: [id])
+//   book Book @relation(fields: [bookId], references: [id])
+// }
 
 model Request {
   id          String        @id @default(cuid())

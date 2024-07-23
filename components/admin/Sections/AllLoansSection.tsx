@@ -35,6 +35,7 @@ import type { LoanedBook } from "@/actions/user/loan";
 import { Badge } from "@/components/ui/badge";
 import { wordifyDate } from "@/lib/utils";
 import type { LoanStatus } from "@prisma/client";
+import { CalendarBlank, Check } from "@phosphor-icons/react";
 
 function colorifyStatus(status: LoanStatus) {
   switch (status) {
@@ -53,9 +54,14 @@ function colorifyStatus(status: LoanStatus) {
   }
 }
 export const columns: ColumnDef<LoanedBook>[] = [
-  {
+    {
+        accessorKey: "userName",
+        header: "User",
+        cell: ({ row }) => <div>{row.getValue("userName")}</div>,
+      },
+    {
     accessorKey: "bookTitle",
-    header: "Title",
+    header: "Book",
     cell: ({ row }) => <div>{row.getValue("bookTitle")}</div>,
   },
   {
@@ -72,7 +78,7 @@ export const columns: ColumnDef<LoanedBook>[] = [
     header: "Loaned At",
     cell: ({ row }) => (
       <div className="capitalize">
-        {wordifyDate(row.getValue("returnedAt")) ?? "N/A"}
+        {wordifyDate(row.getValue("loanedAt")) ?? "N/A"}
       </div>
     ),
   },
@@ -96,44 +102,24 @@ export const columns: ColumnDef<LoanedBook>[] = [
     ),
   },
 
-  //   {
-  //     id: "actions",
-  //     enableHiding: false,
-  //     cell: ({ row }) => {
-  //       const book = row.original;
+    {
+      id: "actions",
+      header:'Actions',
+      enableHiding: false,
+      cell: ({ row }) => (
 
-  //       return (
-  //         <DropdownMenu>
-  //           <DropdownMenuTrigger asChild>
-  //             <Button variant="ghost" className="h-8 w-8 p-0">
-  //               <span className="sr-only">Open menu</span>
-  //               <DotsHorizontalIcon className="h-4 w-4" />
-  //             </Button>
-  //           </DropdownMenuTrigger>
-  //           <DropdownMenuContent align="end">
-  //             <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <div className="flex gap-1">
+            <Button variant='outline' size='icon'><Check/></Button>
+            <Button variant='outline' size='icon'><CalendarBlank/></Button>
 
-  //             <DropdownMenuItem
-  //               className="text-destructive"
-  //               onClick={async () => {
-  //                 await deleteBookById(book.id);
-  //               }}
-  //             >
-  //               <span>
-  //                 <Trash2 className="mr-2 h-4 w-4" />
-  //               </span>
-  //               Delete
-  //             </DropdownMenuItem>
-  //           </DropdownMenuContent>
-  //         </DropdownMenu>
-  //       );
-  //     },
-  //   },
+        </div>
+      ),
+    },
 ];
 
-export default function UserLoanedBookSection({
-  loanedBooks,
-}: { loanedBooks: LoanedBook[] }) {
+export default function AllLoansSection({
+  loans,
+}: { loans: LoanedBook[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -143,7 +129,7 @@ export default function UserLoanedBookSection({
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data: loanedBooks,
+    data: loans,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

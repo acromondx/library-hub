@@ -11,15 +11,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { userSidebarNavigation } from "@/config/navigation";
-import { CircleUser, Search } from "lucide-react";
+// import { CircleUser, Search } from "lucide-react";
+import { MagnifyingGlass, UserCircle } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
+
 
 export const metadata: Metadata = {
   title: "Library Hub",
   description: "Generated",
 };
 
-export default async function AdminLayout({
+export default async function UserLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -27,13 +29,13 @@ export default async function AdminLayout({
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <Sidebar sidebarNavigation={userSidebarNavigation} />
-      <div className="flex flex-col">
-        <header className="sticky top-0 flex h-14 items-center gap-4 border-b bg-muted px-4 lg:h-[60px] lg:px-6">
+      <div className="flex flex-col overflow-hidden">
+        <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-muted px-4 lg:h-[60px] lg:px-6">
           <MobileSidebar sidebarNavigation={userSidebarNavigation} />
-          <div className="w-full flex-1">
+          <div className="flex-1">
             <form>
               <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <MagnifyingGlass className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="search"
                   placeholder="Search books..."
@@ -45,7 +47,7 @@ export default async function AdminLayout({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
+                <UserCircle className="size-5" />
                 <span className="sr-only">Toggle user menu</span>
               </Button>
             </DropdownMenuTrigger>
@@ -59,12 +61,10 @@ export default async function AdminLayout({
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          <div
-            className="flex flex-1 rounded-lg border border-dashed p-6 shadow-sm"
-            x-chunk="dashboard-02-chunk-1"
-          >
-            {children}
+        <main className="flex-1 overflow-auto">
+          <div className=" mx-auto p-4 lg:p-6">
+        
+              {children}
           </div>
         </main>
       </div>

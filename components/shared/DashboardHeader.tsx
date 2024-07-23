@@ -18,7 +18,7 @@ export function DashboardHeader({
 
         {children}
       </div>
-      {showSeperator && <Separator className="mb-4" />}
+    {showSeperator && <Separator className="mb-6 mt-2" />}
     </>
   );
 }

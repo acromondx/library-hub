@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { type ChangeEvent, useMemo, useState } from "react";
-
+import Image from 'next/image'
 import type { IBook as Book } from "@/actions/user/actions";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -91,7 +91,7 @@ export default function AllBooksSection({ books }: { books: Book[] }) {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Book Catalog</h1>
+        <h1 className="text-xl font-bold">Book Catalog</h1>
         <div className="flex items-center gap-4">
           <Input
             type="text"
@@ -128,7 +128,7 @@ export default function AllBooksSection({ books }: { books: Book[] }) {
       <div className="mb-6 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {filteredBooks.map((book) => (
           <div key={book.id} className="rounded-lg bg-background p-4 shadow">
-            <img
+            <Image
               src={book.pictureUrl}
               alt={book.title}
               width={200}
