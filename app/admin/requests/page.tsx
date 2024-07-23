@@ -1,6 +1,9 @@
-import db from "@/db/db";
+import { getAllRequests } from "@/actions/admin/requests";
+import { getUser } from "@/actions/user/user";
+import AllRequestsSection from "@/components/admin/Sections/AllRequestsSection";
 
-export default async function Dashboard() {
-  const categories = await db.category.findMany({ take: 3 });
-  return <p>{JSON.stringify(categories)}</p>;
+export default async function UserReservedBooks() {
+  const user = await getUser();
+  const requests = await getAllRequests();
+  return <AllRequestsSection requests={requests} />;
 }
