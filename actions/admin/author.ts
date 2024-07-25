@@ -50,24 +50,9 @@ export async function updateAuthor(
   redirect("/admin/books/authors");
 }
 
-export async function getAuthorById({ id }: { id: string }) {
-  console.log("Fetching author with ID:", id);
 
-  const author = await db.author.findFirst({
-    where: { id },
-  });
-  if (!author) {
-    console.error("Author not found");
-    throw new Error("Author not found");
-  }
-  return author;
-}
 
-export async function getAllAuthors() {
-  const authors = await db.author.findMany({ include: { books: true } });
 
-  return authors;
-}
 
 export async function deleteAuthorById({ id }: { id: string }) {
   try {

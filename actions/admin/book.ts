@@ -4,13 +4,12 @@ import db from "@/db/db";
 import { AddBookSchema, UpdateBookSchema } from "@/lib/schema/admin";
 import { revalidatePath } from "next/cache";
 import { notFound } from "next/navigation";
-import type { z } from "zod";
+import { z } from "zod";
 
 export async function addBook(rawData: z.infer<typeof AddBookSchema>) {
   const data = AddBookSchema.parse(rawData);
 
   try {
-
     await db.book.create({
       data: {
         title: data.title,
@@ -20,7 +19,7 @@ export async function addBook(rawData: z.infer<typeof AddBookSchema>) {
         publishedAt: data.publishedAt,
         authorId: data.authorId,
         categoryId: data.categoryId,
-        pictureUrl: data.image as string, 
+        pictureUrl: data.image as string,
       },
     });
 
@@ -31,20 +30,20 @@ export async function addBook(rawData: z.infer<typeof AddBookSchema>) {
     throw new Error((error as Error).message);
   }
 }
-  // } catch (error) {
-  //   if (
-  // error instanceof PrismaClientKnownRequestError &&
-  // error.code === "P2002"
-  //   ) {
-  //     if (error.meta?.target === "Book_isbn_key") {
-  //       console.error("ISBN already exists:", error);
-  //       return { isbn: "A book with this ISBN already exists." };
-  //     }
-  //   } else {
-  //     console.error("Error adding book:", error);
-  //     throw new Error((error as Error).message);
-  //   }
-  // }
+// } catch (error) {
+//   if (
+// error instanceof PrismaClientKnownRequestError &&
+// error.code === "P2002"
+//   ) {
+//     if (error.meta?.target === "Book_isbn_key") {
+//       console.error("ISBN already exists:", error);
+//       return { isbn: "A book with this ISBN already exists." };
+//     }
+//   } else {
+//     console.error("Error adding book:", error);
+//     throw new Error((error as Error).message);
+//   }
+// }
 // }
 
 export async function updateBook(
@@ -68,10 +67,8 @@ export async function updateBook(
     isbn: data.isbn,
     authorId: data.authorId,
     categoryId: data.categoryId,
-    pictureUrl: data.image as string, 
-
+    pictureUrl: data.image as string,
   };
-
 
   console.log("prisma ++++++++++");
   console.log(updateData);
@@ -83,27 +80,6 @@ export async function updateBook(
 
   revalidatePath("/admin/books");
   // redirect("/admin/books");
-}
-
-export async function getAllBooks() {
-  const books = await db.book.findMany({
-    include: { author: true, category: true },
-  });
-  return books;
-}
-
-export async function getBookById({ id }: { id: string }) {
-  console.log("Fetching book with ID:", id);
-
-  const book = await db.book.findFirst({
-    where: { id },
-    include: { author: true, category: true },
-  });
-  if (!book) {
-    console.error("Book not found");
-    throw new Error("Book not found");
-  }
-  return book;
 }
 
 export async function deleteBookById(id: string) {

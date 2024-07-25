@@ -1,29 +1,24 @@
 import db from "@/db/db";
+import { Loan } from "@prisma/client";
 
-export async function getAllLoans (){
-    const loans = await db.loan.findMany({   
-      select: {
-        id: true,
-        bookId: true,
-        book: {
-          select: {
-            title: true,
-          },
-        },
-        user: {select: {name: true}},
-        status: true,
-        loanedAt: true,
-        dueDate: true,
-        returnedAt: true,
-      },});
-    return loans.map(loan => ({
-        id: loan.id,
-        userName: loan.user.name ?? 'n/a',
-        bookId: loan.bookId,
-        bookTitle: loan.book.title,
-        loanStatus: loan.status,
-        loanedAt: loan.loanedAt,
-        dueDate: loan.dueDate,
-        returnedAt: loan.returnedAt,
-      }));
+export async function extendLoanDueDate(
+  loanId: string,
+  newDueDate: Date,
+): Promise<Loan> {
+  return db.loan.update({
+    where: {
+      id: loanId,
+    },
+    data: {
+      dueDate: newDueDate,
+    },
+  });
+}
+
+export async function deleteLoan(loanId: string): Promise<Loan> {
+  return db.loan.delete({
+    where: {
+      id: loanId,
+    },
+  });
 }
