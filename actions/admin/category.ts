@@ -56,24 +56,9 @@ export async function updateCategory(
   redirect("/admin/books/categories");
 }
 
-export async function getCategoryById({ id }: { id: string }) {
-  console.log("Fetching category with ID:", id);
 
-  const category = await db.category.findFirst({
-    where: { id },
-  });
-  if (!category) {
-    console.error("Category not found");
-    throw new Error("Category not found");
-  }
-  return category;
-}
 
-export async function getAllCategories() {
-  const categories = await db.category.findMany({ include: { books: true } });
-
-  return categories;
-}
+ 
 
 export async function deleteCategoryById({ id }: { id: string }) {
   try {
