@@ -49,28 +49,9 @@ export async function removeBookmark({
   revalidatePath(`/bookmarks`);
 }
 
-export async function getBookmarksByUser({ userId }: { userId: string }) {
-  const bookmarks = await db.bookmark.findMany({
-    where: { userId },
-    include: {
-      book: {
-        include: {
-          author: true,
-          category: true,
-        },
-      },
-    },
-  });
 
-  return bookmarks.map((bookmark) => ({
-    id: bookmark.id,
-    bookId: bookmark.book.id,
-    title: bookmark.book.title,
-    pictureUrl: bookmark.book.pictureUrl,
-    author: bookmark.book.author.name,
-    category: bookmark.book.category.name,
-  }));
-}
+
+ 
 
 export async function isBookmark({
   userId,
@@ -90,28 +71,8 @@ export async function isBookmark({
   return !!bookmark;
 }
 
-export async function getBookmarkCount({
-  bookId,
-}: {
-  bookId: string;
-}): Promise<number> {
-  const count = await db.bookmark.count({
-    where: { bookId },
-  });
-  return count;
-}
-
-export async function getUsersWhoBookmarked({
-  bookId,
-}: {
-  bookId: string;
-}): Promise<User[]> {
-  const bookmarks = await db.bookmark.findMany({
-    where: { bookId },
-    include: { user: true },
-  });
-  return bookmarks.map((bookmark) => bookmark.user);
-}
+ 
+ 
 
 export async function toggleBookmark({
   userId,

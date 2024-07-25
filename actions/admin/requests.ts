@@ -15,26 +15,7 @@ export interface IRequest {
   userPicture: string;
 }
 
-export async function getAllRequests() {
-  const requests = await db.request.findMany({
-    include: { user: true },
-    orderBy: { createdAt: "desc" },
-  });
-  return requests.map((request) => {
-    console.log("++++ profile pic");
-    console.log(request.user.picture);
-    return {
-      id: request.id,
-      userId: request.userId,
-      userName: request.user.name,
-      userPicture: request.user.picture,
-      type: request.type,
-      description: request.description,
-      status: request.status,
-      createdAt: request.createdAt,
-    } as IRequest;
-  });
-}
+
 
 export async function approveRequest({ id }: { id: string }) {
   try {

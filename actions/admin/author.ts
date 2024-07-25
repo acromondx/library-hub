@@ -50,10 +50,6 @@ export async function updateAuthor(
   redirect("/admin/books/authors");
 }
 
-
-
-
-
 export async function deleteAuthorById({ id }: { id: string }) {
   try {
     await db.author.delete({
