@@ -3,24 +3,29 @@ import { Bell } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import type { SidebarNavigation } from "@/config/navigation";
 import { cn } from "@/lib/utils";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { Books } from "@phosphor-icons/react";
+import {
+  userSidebarNavigation,
+  adminSidebarNavigation,
+} from "@/config/navigation";
 
-export function Sidebar({
-  sidebarNavigation,
-}: {
-  sidebarNavigation: SidebarNavigation[];
-}) {
+export function Sidebar({ type }: { type: "USER" | "ADMIN" }) {
   const segment = useSelectedLayoutSegment();
 
+  let sidebarNavigation;
+  if (type === "USER") {
+    sidebarNavigation = userSidebarNavigation;
+  } else {
+    sidebarNavigation = adminSidebarNavigation;
+  }
   return (
     <div className="hidden border-r bg-muted/40 md:block">
       <div className="sticky top-0 flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
-            <div className="p-2 bg-primary text-white rounded-sm">
+            <div className="rounded-sm bg-primary p-2 text-white">
               {" "}
               <Books className="size-3" weight="duotone" />
             </div>{" "}
@@ -33,7 +38,7 @@ export function Sidebar({
         </div>
         <div className="flex-1">
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-            {sidebarNavigation.map((item, index) => {
+            {sidebarNavigation.map((item) => {
               const Icon = item.icon;
               const isActive = item.href.includes(String(segment));
               return (
@@ -47,7 +52,7 @@ export function Sidebar({
                       : "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
                   )}
                 >
-                  <Icon className="size-5"  weight="duotone"/>
+                  <Icon className="size-5" weight="duotone" />
                   {item.name}
                 </Link>
               );

@@ -15,7 +15,6 @@ import { userSidebarNavigation } from "@/config/navigation";
 import { MagnifyingGlass, UserCircle } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 
-
 export const metadata: Metadata = {
   title: "Library Hub",
   description: "Generated",
@@ -28,10 +27,10 @@ export default async function UserLayout({
 }) {
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <Sidebar sidebarNavigation={userSidebarNavigation} />
+      <Sidebar type="USER" />
       <div className="flex flex-col overflow-hidden">
         <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-muted px-4 lg:h-[60px] lg:px-6">
-          <MobileSidebar sidebarNavigation={userSidebarNavigation} />
+          <MobileSidebar type="USER" />
           <div className="flex-1">
             <form>
               <div className="relative">
@@ -62,10 +61,7 @@ export default async function UserLayout({
           </DropdownMenu>
         </header>
         <main className="flex-1 overflow-auto">
-          <div className=" mx-auto p-4 lg:p-6">
-        
-              {children}
-          </div>
+          <div className="mx-auto p-4 lg:p-6">{children}</div>
         </main>
       </div>
     </div>

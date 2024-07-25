@@ -1,19 +1,23 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import type { SidebarNavigation } from "@/config/navigation";
+import {
+  userSidebarNavigation,
+  adminSidebarNavigation,
+} from "@/config/navigation";
 import { cn } from "@/lib/utils";
 import { BookMarkedIcon, Library, Menu } from "lucide-react";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 
-export function MobileSidebar({
-  sidebarNavigation,
-}: {
-  sidebarNavigation: SidebarNavigation[];
-}) {
+export function MobileSidebar({ type }: { type: "USER" | "ADMIN" }) {
   const segment = useSelectedLayoutSegment();
-
+  let sidebarNavigation;
+  if (type === "USER") {
+    sidebarNavigation = userSidebarNavigation;
+  } else {
+    sidebarNavigation = adminSidebarNavigation;
+  }
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -24,8 +28,8 @@ export function MobileSidebar({
       </SheetTrigger>
       <SheetContent side="left" className="flex flex-col">
         <nav className="grid gap-2 text-lg font-medium">
-        <Link href="/" className="flex items-center gap-2 font-semibold mb-4">
-            <div className="p-2 bg-primary text-white rounded-md">
+          <Link href="/" className="mb-4 flex items-center gap-2 font-semibold">
+            <div className="rounded-md bg-primary p-2 text-white">
               {" "}
               <BookMarkedIcon className="size-3" />
             </div>{" "}
