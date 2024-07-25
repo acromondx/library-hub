@@ -42,7 +42,6 @@ export function SubmitRequestForm({ author }: { author?: Author | null }) {
   async function onSubmit(data: z.infer<typeof SubmitRequestSchema>) {
     try {
       await submitRequest(data);
-
       toast.success("Category updated successfully.");
     } catch (error) {
       toast.error("Error submitting request");
@@ -56,8 +55,6 @@ export function SubmitRequestForm({ author }: { author?: Author | null }) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-4"
         >
-
-
           <FormField
             control={form.control}
             name="requestType"
@@ -93,13 +90,15 @@ export function SubmitRequestForm({ author }: { author?: Author | null }) {
             disabled={isLoading}
             control={form.control}
             name="description"
-            render={({ field }) =>
-
-            (
+            render={({ field }) => (
               <FormItem>
-                <FormLabel>Request description</FormLabel  >
+                <FormLabel>Request description</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Example: I need this book xyz" {...field} rows={5} />
+                  <Textarea
+                    placeholder="Example: I need this book xyz"
+                    {...field}
+                    rows={5}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -43,6 +43,7 @@ import {
 import TruncatedText from "@/components/shared/TruncatedText";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { formatTextWithParagraphs } from "@/lib/utils/formatTextWithParagraphs";
 
 function colorifyStatus(status: RequestStatus) {
   switch (status) {
@@ -138,7 +139,9 @@ export const columns: ColumnDef<IRequest>[] = [
                 </div>
                 <div className="mb-4">
                   <div className="font-medium">Description</div>
-                  <div>{rowData.description}</div>
+                  <div className="max-w-none">
+                    {formatTextWithParagraphs(rowData.description)}
+                  </div>
                 </div>
                 <div>
                   <div className="font-medium">Status</div>
@@ -304,10 +307,6 @@ export default function AllRequestsSection({
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
         <div className="space-x-2">
           <Button
             variant="outline"

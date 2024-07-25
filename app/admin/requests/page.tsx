@@ -1,5 +1,5 @@
-import { getAllRequests } from "@/actions/admin/requests";
-import { getUser } from "@/actions/user/user";
+import { getAllRequests } from "@/queries/admin/requests";
+import { getUser } from "@/queries/user/user";
 import AllRequestsSection from "@/components/admin/Sections/AllRequestsSection";
 
 export default async function UserReservedBooks() {
