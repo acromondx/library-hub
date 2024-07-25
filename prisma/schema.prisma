@@ -123,7 +123,7 @@ model Request {
   id          String        @id @default(cuid())
   userId      String
   type        RequestType
-  description String
+  description String        @db.Text
   status      RequestStatus @default(PENDING)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
