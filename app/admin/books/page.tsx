@@ -1,4 +1,4 @@
-import { getAllBooks } from "@/actions/admin/book";
+import { getAllBooks } from "@/queries/admin/book";
 import AllBooksSection from "@/components/admin/Sections/AllBooksSection";
 import { DashboardHeader } from "@/components/shared/DashboardHeader";
 import { LinkButton } from "@/components/shared/buttons";

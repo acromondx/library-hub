@@ -1,4 +1,4 @@
-import { getAuthorById } from "@/actions/admin/author";
+import { getAuthorById } from "@/queries/admin/author";
 import { AddOrUpdateAuthorForm } from "@/components/admin/Forms/AddOrUpdateAuthorForm";
 import { DashboardHeader } from "@/components/shared/DashboardHeader";
 import { BackButton } from "@/components/shared/buttons";

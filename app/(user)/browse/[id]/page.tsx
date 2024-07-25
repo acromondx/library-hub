@@ -1,7 +1,7 @@
-import { getBookById, isBookAvailableForLoan } from "@/actions/user/book";
+import { getBookById, isBookAvailableForLoan } from "@/queries/user/book";
 import { isBookmark } from "@/actions/user/bookmarks";
 import { isLoanSubmitted } from "@/actions/user/loan";
-import { getUser } from "@/actions/user/user";
+import { getUser } from "@/queries/user/user";
 import { BackButton } from "@/components/shared/buttons";
 import BookDetailsSection from "@/components/user/Sections/BookDetailsSection";
 

@@ -1,8 +1,9 @@
-import { getAllAuthors } from "@/actions/admin/author";
-import { getBookById } from "@/actions/admin/book";
-import { getAllCategories } from "@/actions/admin/category";
+import { getAllAuthors } from "@/queries/admin/author";
+import { getBookById } from "@/queries/admin/book";
+import { getAllCategories } from "@/queries/admin/category";
 import { BackButton } from "@/components/shared/buttons";
-
+import Image from "next/image";
+import { formatTextWithParagraphs } from "@/lib/utils/formatTextWithParagraphs";
 interface ViewBookPageProps {
   params: {
     id: string;
@@ -16,11 +17,6 @@ export default async function ViewBookPage({ params }: ViewBookPageProps) {
     getAllAuthors(),
   ]);
 
-  const formattedDescription = book.description
-    .split("\r\n")
-    .map((line, index) => `<p key=${index}>${line}</p>`)
-    .join("");
-
   return (
     <div className="px-2">
       <BackButton href="/admin/books" />
@@ -29,11 +25,11 @@ export default async function ViewBookPage({ params }: ViewBookPageProps) {
         <section className="w-full pt-6 md:pt-8 lg:pt-12">
           <div className="container grid gap-10 md:grid-cols-2 lg:gap-16">
             <div className="flex flex-col items-center justify-center space-y-6">
-              <img
+              <Image
                 src={book.pictureUrl}
                 alt={book.title}
-                width={400}
-                height={600}
+                width={450}
+                height={500}
                 className="rounded-lg shadow-lg"
               />
             </div>
@@ -74,10 +70,8 @@ export default async function ViewBookPage({ params }: ViewBookPageProps) {
               </div>
               <div className="space-y-4">
                 <h2 className="text-xl font-bold">Description</h2>
-                <div
-                  className="text-muted-foreground"
-                  dangerouslySetInnerHTML={{ __html: formattedDescription }}
-                />
+
+                {formatTextWithParagraphs(book.description)}
               </div>
             </div>
           </div>

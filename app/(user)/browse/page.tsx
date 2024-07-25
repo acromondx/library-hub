@@ -1,4 +1,4 @@
-import { getAllBooks } from "@/actions/user/actions";
+import { getAllBooks } from "@/queries/user/actions";
 import AllBooksSection from "@/components/user/Sections/AllBooksSection";
 
 export default async function NewProductPage() {
