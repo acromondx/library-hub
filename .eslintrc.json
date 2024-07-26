@@ -1,8 +1,6 @@
 {
-  "plugins": [
-    "unused-imports"
-  ],
-  "extends": "next/core-web-vitals",
+  "plugins": ["unused-imports"],
+  "extends": ["next/core-web-vitals", "plugin:react-hooks/recommended"],
   "rules": {
     "no-unused-vars": "off",
     "unused-imports/no-unused-imports": "warn",

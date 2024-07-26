@@ -21,8 +21,6 @@ export async function getAllRequests() {
     orderBy: { createdAt: "desc" },
   });
   return requests.map((request) => {
-    console.log("++++ profile pic");
-    console.log(request.user.picture);
     return {
       id: request.id,
       userId: request.userId,

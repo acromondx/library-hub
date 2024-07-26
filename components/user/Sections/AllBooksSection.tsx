@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { type ChangeEvent, useMemo, useState } from "react";
-import Image from 'next/image'
+import Image from "next/image";
 import type { IBook as Book } from "@/actions/user/actions";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -127,27 +127,27 @@ export default function AllBooksSection({ books }: { books: Book[] }) {
       </div>
       <div className="mb-6 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {filteredBooks.map((book) => (
-          <div key={book.id} className="rounded-lg bg-background p-4 shadow">
-            <Image
-              src={book.pictureUrl}
-              alt={book.title}
-              width={200}
-              height={300}
-              className="mx-auto mb-4 h-[300px] w-[200px] rounded-lg object-cover"
-            />
-            <h3 className="mb-2 text-lg font-bold">{book.title}</h3>
-            <p className="mb-2 text-muted-foreground">{book.author}</p>
-            <p className="mb-4 text-muted-foreground">
-              {book.availableCopies} copies available
-            </p>
-            <Button asChild variant="outline" className="w-full">
+          <Link key={book.id} href={`/browse/${book.id}`}>
+            <div className="rounded-lg bg-background p-4 shadow">
+              <Image
+                src={book.pictureUrl}
+                alt={book.title}
+                width={200}
+                height={300}
+                className="mx-auto mb-4 h-[300px] w-[200px] rounded-lg object-cover"
+              />
+              {/* <Button asChild variant="outline" className="w-full">
               <Link href={`/books/${book.id}`}>View Details</Link>
-            </Button>
-          </div>
+            </Button> */}
+              <h3 className="mb-2 text-lg font-bold">{book.title}</h3>
+              <p className="mb-2 text-muted-foreground">{book.author}</p>
+              <p className="mb-4 text-muted-foreground">
+                {book.availableCopies} copies available
+              </p>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
   );
 }
-
-

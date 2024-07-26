@@ -1,4 +1,4 @@
-import { getAllAuthors } from "@/actions/admin/author";
+import { getAllAuthors } from "@/queries/admin/author";
 import { CategoryOrAuthorCard } from "@/components/admin/CategoryOrAuthorCard";
 import { DashboardHeader } from "@/components/shared/DashboardHeader";
 import { LinkButton } from "@/components/shared/buttons";

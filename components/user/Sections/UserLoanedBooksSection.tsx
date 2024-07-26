@@ -72,7 +72,7 @@ export const columns: ColumnDef<LoanedBook>[] = [
     header: "Loaned At",
     cell: ({ row }) => (
       <div className="capitalize">
-        {wordifyDate(row.getValue("returnedAt")) ?? "N/A"}
+        {wordifyDate(row.getValue("loanedAt")) ?? "N/A"}
       </div>
     ),
   },
@@ -133,7 +133,9 @@ export const columns: ColumnDef<LoanedBook>[] = [
 
 export default function UserLoanedBookSection({
   loanedBooks,
-}: { loanedBooks: LoanedBook[] }) {
+}: {
+  loanedBooks: LoanedBook[];
+}) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -204,7 +206,7 @@ export default function UserLoanedBookSection({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border ">
+      <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

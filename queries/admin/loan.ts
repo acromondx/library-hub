@@ -17,6 +17,7 @@ export async function getAllLoans() {
       dueDate: true,
       returnedAt: true,
     },
+    orderBy: { createdAt: "asc" },
   });
   return loans.map((loan) => ({
     id: loan.id,

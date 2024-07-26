@@ -1,4 +1,4 @@
-import { getCategoryById } from "@/actions/admin/category";
+import { getCategoryById } from "@/queries/admin/category";
 import { AddOrUpdateCategoryForm } from "@/components/admin/Forms/AddOrUpdateCategoryForm";
 import { DashboardHeader } from "@/components/shared/DashboardHeader";
 import { BackButton } from "@/components/shared/buttons";

@@ -11,12 +11,13 @@ export async function createLoan({
   bookId: string;
   dueDate: Date;
 }): Promise<Loan> {
-  dueDate.setDate(dueDate.getDate() + 3);
+  // dueDate.setDate(dueDate.getDate() + 3);
   return db.loan.create({
     data: {
       userId,
       bookId,
       dueDate,
+      loanedAt: new Date(),
     },
   });
 }

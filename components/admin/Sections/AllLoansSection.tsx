@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { ChevronDownIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -19,6 +19,9 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -35,7 +38,9 @@ import type { LoanedBook } from "@/actions/user/loan";
 import { Badge } from "@/components/ui/badge";
 import { wordifyDate } from "@/lib/utils";
 import type { LoanStatus } from "@prisma/client";
-import { CalendarBlank, Check } from "@phosphor-icons/react";
+import { CalendarPlus, Check, Prohibit } from "@phosphor-icons/react";
+import Link from "next/link";
+import { approveLoan, cancelLoan, returnLoan } from "@/actions/admin/loan";
 
 function colorifyStatus(status: LoanStatus) {
   switch (status) {
@@ -54,12 +59,12 @@ function colorifyStatus(status: LoanStatus) {
   }
 }
 export const columns: ColumnDef<LoanedBook>[] = [
-    {
-        accessorKey: "userName",
-        header: "User",
-        cell: ({ row }) => <div>{row.getValue("userName")}</div>,
-      },
-    {
+  {
+    accessorKey: "userName",
+    header: "User",
+    cell: ({ row }) => <div>{row.getValue("userName")}</div>,
+  },
+  {
     accessorKey: "bookTitle",
     header: "Book",
     cell: ({ row }) => <div>{row.getValue("bookTitle")}</div>,
@@ -102,24 +107,76 @@ export const columns: ColumnDef<LoanedBook>[] = [
     ),
   },
 
-    {
-      id: "actions",
-      header:'Actions',
-      enableHiding: false,
-      cell: ({ row }) => (
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const loan = row.original;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <DotsHorizontalIcon className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
 
-        <div className="flex gap-1">
-            <Button variant='outline' size='icon'><Check/></Button>
-            <Button variant='outline' size='icon'><CalendarBlank/></Button>
+            <DropdownMenuItem
+              disabled={loan.loanStatus != "PENDING"}
+              onClick={async () => {
+                await approveLoan(loan.id);
+              }}
+            >
+              <span className="inline-flex">
+                <Check className="mr-2 h-4 w-4" />
+                Approve
+              </span>
+            </DropdownMenuItem>
 
-        </div>
-      ),
+            <DropdownMenuItem
+              disabled={loan.loanStatus != "PENDING"}
+              onClick={async () => {
+                await cancelLoan(loan.id);
+              }}
+            >
+              <span className="inline-flex">
+                <Prohibit className="mr-2 h-4 w-4" />
+                Cancel
+              </span>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              disabled={loan.loanStatus != "ACTIVE"}
+              onClick={async () => {
+                await returnLoan(loan.id);
+              }}
+            >
+              <Check className="mr-2 h-4 w-4" />
+              Return
+            </DropdownMenuItem>
+
+            <DropdownMenuItem
+              disabled={
+                !(loan.loanStatus === "PENDING" || loan.loanStatus === "ACTIVE")
+              }
+              onClick={async () => {
+                await approveLoan(loan.id);
+              }}
+            >
+              <CalendarPlus className="mr-2 h-4 w-4" />
+              Extend
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
     },
+  },
 ];
 
-export default function AllLoansSection({
-  loans,
-}: { loans: LoanedBook[] }) {
+export default function AllLoansSection({ loans }: { loans: LoanedBook[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -153,11 +210,13 @@ export default function AllLoansSection({
         <div className="relative">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Filter by ISBN..."
+            placeholder="Filter by user name..."
             type="search"
-            value={(table.getColumn("isbn")?.getFilterValue() as string) ?? ""}
+            value={
+              (table.getColumn("userName")?.getFilterValue() as string) ?? ""
+            }
             onChange={(event) =>
-              table.getColumn("isbn")?.setFilterValue(event.target.value)
+              table.getColumn("userName")?.setFilterValue(event.target.value)
             }
             className="max-w-sm appearance-none bg-background pl-8 shadow-none"
           />
@@ -190,7 +249,7 @@ export default function AllLoansSection({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border ">
+      <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

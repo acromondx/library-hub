@@ -1,5 +1,4 @@
 import "server-only";
-import "server-only";
 import db from "@/db/db";
 import { type Loan, LoanStatus } from "@prisma/client";
 
@@ -9,6 +8,7 @@ export async function getAllLoans(): Promise<Loan[]> {
       user: true,
       book: true,
     },
+    orderBy: { createdAt: "desc" },
   });
 }
 
