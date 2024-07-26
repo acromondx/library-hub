@@ -8,9 +8,6 @@ import { redirect } from "next/navigation";
 import type { z } from "zod";
 
 export async function addAuthor(rawInput: z.infer<typeof AddAuthorSchema>) {
-  // const result = AddAuthorSchema.safeParse(
-  //   Object.fromEntries(formData.entries()),
-  // );
   const input = AddAuthorSchema.parse(rawInput);
 
   try {
@@ -24,7 +21,6 @@ export async function addAuthor(rawInput: z.infer<typeof AddAuthorSchema>) {
   }
 
   revalidatePath("/");
-  revalidatePath("/products");
   redirect("/admin/books/authors");
 }
 

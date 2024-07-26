@@ -33,8 +33,8 @@ interface CategoryOrAuthorCardActionsProps {
 }
 
 export function CardActions({ item, type }: CategoryOrAuthorCardActionsProps) {
-  const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false);
-  const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false);
+  const [showDeleteAlert, setShowDeleteAlert] = React.useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = React.useState(false);
   const editLink = `/admin/books/${type == "author" ? "authors" : "categories"}/${item.id}/edit`;
 
   return (
@@ -42,7 +42,6 @@ export function CardActions({ item, type }: CategoryOrAuthorCardActionsProps) {
       <DropdownMenu>
         <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center">
           <Ellipsis className="h-4 w-4" />
-          <span className="sr-only">Open</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
@@ -62,7 +61,6 @@ export function CardActions({ item, type }: CategoryOrAuthorCardActionsProps) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* delete alert */}
       <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
