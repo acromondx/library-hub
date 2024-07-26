@@ -1,4 +1,5 @@
 import db from "@/db/db";
+import { PrismaClient } from "@prisma/client";
 import {
   startOfDay,
   subDays,
@@ -7,14 +8,14 @@ import {
   subYears,
 } from "date-fns";
 
-type TimeRange = "lastWeek" | "lastMonth " | "lastQuarter" | "lastYear";
+type TimeRange = "lastWeek" | "lastMonth" | "lastQuarter" | "lastYear";
 
 const getStartDate = (timeRange: TimeRange): Date => {
   const now = new Date();
   switch (timeRange) {
     case "lastWeek":
       return startOfDay(subDays(now, 7));
-    case "lastMonth ":
+    case "lastMonth":
       return startOfDay(subMonths(now, 1));
     case "lastQuarter":
       return startOfDay(subQuarters(now, 1));
@@ -30,13 +31,13 @@ export async function getLoanTrends(timeRange: TimeRange) {
 
   const loanTrends = await db.$queryRaw`
     SELECT 
-      DATE(loanedAt) as date,
+      DATE(loaned_at) as date,
       COUNT(*) as loans,
-      SUM(CASE WHEN returnedAt IS NOT NULL THEN 1 ELSE 0 END) as returns
-    FROM Loan
-    WHERE loanedAt >= ${startDate}
-    GROUP BY DATE(loanedAt)
-    ORDER BY DATE(loanedAt)
+      SUM(CASE WHEN returned_at IS NOT NULL THEN 1 ELSE 0 END) as returns
+    FROM "Loan"
+    WHERE loaned_at >= ${startDate}
+    GROUP BY DATE(loaned_at)
+    ORDER BY DATE(loaned_at)
   `;
 
   return loanTrends;
@@ -49,10 +50,10 @@ export async function getCategoryDistribution(timeRange: TimeRange) {
     SELECT 
       c.name,
       COUNT(*) as value
-    FROM Loan l
-    JOIN Book b ON l.bookId = b.id
-    JOIN Category c ON b.categoryId = c.id
-    WHERE l.loanedAt >= ${startDate}
+    FROM "Loan" l
+    JOIN "Book" b ON l.book_id = b.id
+    JOIN "Category" c ON b.category_id = c.id
+    WHERE l.loaned_at >= ${startDate}
     GROUP BY c.name
     ORDER BY value DESC
   `;
