@@ -31,13 +31,13 @@ export async function getLoanTrends(timeRange: TimeRange) {
 
   const loanTrends = await db.$queryRaw`
     SELECT 
-      DATE(loaned_at) as date,
+      DATE(loanedAt) as date,
       COUNT(*) as loans,
-      SUM(CASE WHEN returned_at IS NOT NULL THEN 1 ELSE 0 END) as returns
+      SUM(CASE WHEN returnedAt IS NOT NULL THEN 1 ELSE 0 END) as returns
     FROM "Loan"
-    WHERE loaned_at >= ${startDate}
-    GROUP BY DATE(loaned_at)
-    ORDER BY DATE(loaned_at)
+    WHERE loanedAt >= ${startDate}
+    GROUP BY DATE(loanedAt)
+    ORDER BY DATE(loanedAt)
   `;
 
   return loanTrends;
@@ -51,9 +51,9 @@ export async function getCategoryDistribution(timeRange: TimeRange) {
       c.name,
       COUNT(*) as value
     FROM "Loan" l
-    JOIN "Book" b ON l.book_id = b.id
-    JOIN "Category" c ON b.category_id = c.id
-    WHERE l.loaned_at >= ${startDate}
+    JOIN "Book" b ON l.bookId = b.id
+    JOIN "Category" c ON b.categoryId = c.id
+    WHERE l.loanedAt >= ${startDate}
     GROUP BY c.name
     ORDER BY value DESC
   `;
