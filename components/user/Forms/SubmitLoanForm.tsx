@@ -26,7 +26,6 @@ import { cn } from "@/lib/utils";
 interface Book {
   id: string;
   title: string;
-  // Add other book properties as needed
 }
 
 const FormSchema = z.object({
