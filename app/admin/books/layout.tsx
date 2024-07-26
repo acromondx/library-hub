@@ -1,6 +1,8 @@
 import { TabsNavigation } from "@/components/shared/TabNav";
 import type { ReactNode } from "react";
 
+export const dynamic = "force-dynamic";
+
 export default async function BooksLayout({
   children,
 }: {

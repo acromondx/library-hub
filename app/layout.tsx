@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { GeistSans } from 'geist/font/sans';
+import { GeistSans } from "geist/font/sans";
 import { Toaster } from "sonner";
 
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
+
+export const dynamic = "force-dynamic";
 
 // const fontHeading = Inter({
 //   subsets: ["latin"],
@@ -30,13 +32,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <TooltipProvider> <body
-        className={cn("antialiased", GeistSans.className)}
-      >
-        {children}
-      </body>
+      <TooltipProvider>
+        {" "}
+        <body className={cn("antialiased", GeistSans.className)}>
+          {children}
+        </body>
       </TooltipProvider>
-     
+
       <Toaster richColors />
     </html>
   );
