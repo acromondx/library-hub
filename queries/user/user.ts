@@ -2,13 +2,16 @@ import "server-only";
 import db from "@/db/db";
 
 export const getUserById = async (id: string) => {
-  try {
-    const user = await db.user.findUnique({ where: { id } });
+  const user = await db.user.findUnique({
+    where: { id },
+    include: {
+      loans: true,
+      requests: true,
+      bookmarks: true,
+    },
+  });
 
-    return user;
-  } catch {
-    return null;
-  }
+  return user;
 };
 
 export async function getUser() {

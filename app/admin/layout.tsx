@@ -1,5 +1,6 @@
 import { MobileSidebar } from "@/components/shared/MobileSidebar";
 import { Sidebar } from "@/components/shared/Sidebar";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,7 +12,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { adminSidebarNavigation } from "@/config/navigation";
-import { MagnifyingGlass, UserCircle } from "@phosphor-icons/react/dist/ssr";
+import {
+  MagnifyingGlass,
+  UserCircle,
+  UserCircleGear,
+} from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -34,6 +39,11 @@ export default async function AdminLayout({
           <MobileSidebar type="ADMIN" />
 
           <div className="ml-auto">
+            <Badge className="ml-auto rounded border-stone-600/[0.2] bg-stone-600/[0.1] text-xs font-normal uppercase text-stone-600 shadow-none">
+              <UserCircleGear className="mr-1 h-4 w-4" />
+              ADMIN
+              <span className="sr-only">Toggle notifications</span>
+            </Badge>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -41,7 +51,7 @@ export default async function AdminLayout({
                   size="icon"
                   className="rounded-full"
                 >
-                  <UserCircle className="h-5 w-5" />
+                  <UserCircle className="size-6" />
                   <span className="sr-only">Toggle user menu</span>
                 </Button>
               </DropdownMenuTrigger>

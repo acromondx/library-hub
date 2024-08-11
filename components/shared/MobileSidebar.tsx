@@ -9,9 +9,16 @@ import { cn } from "@/lib/utils";
 import { BookMarkedIcon, Library, Menu } from "lucide-react";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
+import { useState } from "react";
 
 export function MobileSidebar({ type }: { type: "USER" | "ADMIN" }) {
   const segment = useSelectedLayoutSegment();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
+
   let sidebarNavigation;
   if (type === "USER") {
     sidebarNavigation = userSidebarNavigation;
@@ -19,7 +26,7 @@ export function MobileSidebar({ type }: { type: "USER" | "ADMIN" }) {
     sidebarNavigation = adminSidebarNavigation;
   }
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button variant="outline" size="icon" className="shrink-0 md:hidden">
           <Menu className="h-5 w-5" />
@@ -44,6 +51,7 @@ export function MobileSidebar({ type }: { type: "USER" | "ADMIN" }) {
                 aria-label={item.name}
                 key={index}
                 href={item.href}
+                onClick={handleLinkClick}
                 className={cn(
                   isActive
                     ? "flex items-center gap-3 rounded-lg bg-primary/[0.2] px-3 py-2 text-primary transition-all hover:text-primary"

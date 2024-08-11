@@ -1,8 +1,10 @@
 import { z } from "zod";
 
-
-export const ImageSchema = z.union([z.string().url(), z.instanceof(File)]);
-
+export const ImageSchema = z.union([
+  z.string(),
+  z.instanceof(File),
+  z.custom<FileList>(),
+]);
 export const AddBookSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
   isbn: z
@@ -36,9 +38,25 @@ export const AddCategorySchema = z.object({
   name: z.string().min(5).trim(),
 });
 
+export const AddUserSchema = z.object({
+  name: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters long" }),
+  email: z.string().email({ message: "Invalid email address" }),
+  image: ImageSchema,
+  phoneNumber: z.string(),
+});
+
+export const UpdateUserSchema = AddUserSchema.extend({
+  image: ImageSchema.optional(),
+});
+
 //type exports
 export type AddBookSchemaType = z.infer<typeof AddBookSchema>;
 export type UpdateBookSchemaType = z.infer<typeof UpdateBookSchema>;
 
 export type AddAuthorSchemaType = z.infer<typeof AddAuthorSchema>;
 export type AddCategorySchemaType = z.infer<typeof AddCategorySchema>;
+
+export type AddUserSchemaType = z.infer<typeof AddUserSchema>;
+export type UpdateUserSchemaType = z.infer<typeof UpdateUserSchema>;

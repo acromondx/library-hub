@@ -37,6 +37,7 @@ export default function BookmarksSection({
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [booksPerPage] = useState(8);
+
   const filteredBookmarks = useMemo(() => {
     return bookmarks.filter(
       (bookmark) =>
@@ -44,6 +45,7 @@ export default function BookmarksSection({
         bookmark.author.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }, [bookmarks, searchTerm]);
+
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
   const currentBookmarks = filteredBookmarks.slice(
@@ -70,6 +72,7 @@ export default function BookmarksSection({
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6">
@@ -111,37 +114,55 @@ export default function BookmarksSection({
           </div>
         ))}
       </div>
-      <div className="mt-8 flex justify-center">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                href="#"
-                // disabled={currentPage === 1}
-                onClick={() => handlePageChange(currentPage - 1)}
-              />
-            </PaginationItem>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <PaginationItem key={page}>
-                <PaginationLink
-                  href="#"
-                  isActive={page === currentPage}
-                  onClick={() => handlePageChange(page)}
-                >
-                  {page}
-                </PaginationLink>
+      {filteredBookmarks.length > booksPerPage && (
+        <div className="mt-8 flex justify-center">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href={currentPage === 1 ? "#" : ""}
+                  onClick={
+                    currentPage === 1
+                      ? undefined
+                      : () => handlePageChange(currentPage - 1)
+                  }
+                  className={
+                    currentPage === 1 ? "pointer-events-none opacity-50" : ""
+                  }
+                />
               </PaginationItem>
-            ))}
-            <PaginationItem>
-              <PaginationNext
-                href="#"
-                // disabled={currentPage === totalPages}
-                onClick={() => handlePageChange(currentPage + 1)}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      href="#"
+                      isActive={page === currentPage}
+                      onClick={() => handlePageChange(page)}
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                ),
+              )}
+              <PaginationItem>
+                <PaginationNext
+                  href={currentPage === totalPages ? "#" : ""}
+                  onClick={
+                    currentPage === totalPages
+                      ? undefined
+                      : () => handlePageChange(currentPage + 1)
+                  }
+                  className={
+                    currentPage === totalPages
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )}
     </div>
   );
 }

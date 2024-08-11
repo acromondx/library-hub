@@ -2,6 +2,7 @@
 
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { Books, Sparkle, UserCheck } from "@phosphor-icons/react";
 import { Tabs, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { useRouter, useSelectedLayoutSegment } from "next/navigation";
 
@@ -14,16 +15,19 @@ export function TabsNavigation() {
       title: "Books",
       href: "/admin/books",
       isActive: segment === null || segment === "new",
+      icon: Books,
     },
     {
       title: "Categories",
       href: "/admin/books/categories/",
       isActive: segment === "categories",
+      icon: Sparkle,
     },
     {
       title: "Authors",
       href: "/admin/books/authors",
       isActive: segment === "authors",
+      icon: UserCheck,
     },
   ];
 
@@ -51,9 +55,9 @@ export function TabsNavigation() {
                 tab.isActive && "text-primary",
               )}
             >
-              {/* <span>
+              <span>
                 <tab.icon className="mr-2 h-4 w-4" />
-              </span> */}
+              </span>
               {tab.title}
             </TabsTrigger>
           </div>

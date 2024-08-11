@@ -8,40 +8,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expiresAt    DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-}
-
-model EmailVerificationToken {
-  id        String   @id @default(cuid())
-  userId    String
-  email     String
-  expiresAt DateTime
-  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
-}
-
 model User {
-  id            String   @id @default(cuid())
-  name          String?
-  email         String?  @unique
-  emailVerified Boolean? @default(false)
-  picture       String?
-
-  role                   UserRole                 @default(USER)
-  loans                  Loan[]                   @relation("UserLoans")
-  // reservations           Reservation[]
-  requests               Request[]
-  bookmarks              Bookmark[]
-  createdAt              DateTime                 @default(now())
-  updatedAt              DateTime                 @updatedAt
-  sessions               Session[]
-  EmailVerificationToken EmailVerificationToken[]
+  id                        String     @id @default(cuid())
+  name                      String
+  email                     String     @unique
+  password                  String
+  hasChangedDefaultPassword Boolean?   @default(false)
+  profilePicture            String?
+  phoneNumber               String
+  role                      UserRole   @default(USER)
+  loans                     Loan[]     @relation("UserLoans")
+  requests                  Request[]
+  bookmarks                 Bookmark[]
+  createdAt                 DateTime   @default(now())
+  updatedAt                 DateTime   @updatedAt
 }
 
 model Book {
