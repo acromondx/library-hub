@@ -17,6 +17,7 @@ import {
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
 export async function changePassword({
   data,
@@ -25,7 +26,7 @@ export async function changePassword({
 }) {
   const { oldPassword, newPassword } = changePasswordSchema.parse(data);
 
-  const sessionUser = await getUserFromSession();
+  const sessionUser = await getCurrentUser();
   console.log("Session User: ", sessionUser);
 
   const user = await db.user.findFirst({
@@ -111,7 +112,7 @@ export async function logOut() {
   redirect("/auth/sign-in");
 }
 
-export async function getUserFromSession() {
+export const getCurrentUser = cache(async function () {
   const cookieStore = cookies();
   const token = cookieStore.get("AUTH_TOKEN");
 
@@ -154,4 +155,4 @@ export async function getUserFromSession() {
     cookieStore.delete("AUTH_TOKEN");
     redirect("/auth/sign-in");
   }
-}
+});

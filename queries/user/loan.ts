@@ -1,7 +1,7 @@
 import "server-only";
 import db from "@/db";
 import { type Loan, LoanStatus } from "@prisma/client";
-import { getUserFromSession } from "@/actions/user/auth";
+import { getCurrentUser } from "@/actions/user/auth";
 
 export async function getAllLoans(): Promise<Loan[]> {
   return db.loan.findMany({
@@ -25,7 +25,7 @@ export interface LoanedBook {
 }
 
 export async function getLoansByUser(): Promise<LoanedBook[]> {
-  const userId = (await getUserFromSession()).id;
+  const userId = (await getCurrentUser()).id;
   const loans = await db.loan.findMany({
     where: {
       userId: userId,

@@ -25,7 +25,7 @@ export async function getAllRequests() {
       id: request.id,
       userId: request.userId,
       userName: request.user.name,
-      userPicture: request.user.picture,
+      userPicture: request.user.profilePicture,
       type: request.type,
       description: request.description,
       status: request.status,

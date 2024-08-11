@@ -3,10 +3,10 @@ import db from "@/db";
 import type { Bookmark, User } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
-import { getUserFromSession } from "@/actions/user/auth";
+import { getCurrentUser } from "@/actions/user/auth";
 
 export async function getBookmarksByUser() {
-  const userId = (await getUserFromSession()).id;
+  const userId = (await getCurrentUser()).id;
   const bookmarks = await db.bookmark.findMany({
     where: { userId },
     include: {

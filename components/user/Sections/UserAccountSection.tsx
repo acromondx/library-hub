@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Bookmark, Loan, User, UserRole } from "@prisma/client";
+import { Bookmark, Loan, User, Request } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,14 +22,14 @@ interface UserProfileProps {
     profilePicture: string;
     phoneNumber: string;
     createdAt: Date;
+    updatedAt: Date;
     bookmarks: Bookmark[];
     loans: Loan[];
     requests: Request[];
   };
-  onUpdateUser: (updatedUser: Partial<User>) => Promise<void>;
 }
 
-export function UserAccountSection({ user, onUpdateUser }: UserProfileProps) {
+export function UserAccountSection({ user }: UserProfileProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState(user);
 
@@ -40,7 +40,7 @@ export function UserAccountSection({ user, onUpdateUser }: UserProfileProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onUpdateUser(editedUser);
+    // await onUpdateUser(editedUser);
     setIsEditing(false);
   };
 

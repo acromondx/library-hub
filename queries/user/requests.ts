@@ -1,10 +1,9 @@
 import "server-only";
 import db from "@/db";
-import { getUser } from "./user";
-import { getUserFromSession } from "@/actions/user/auth";
+import { getCurrentUser } from "@/actions/user/auth";
 
 export const getUserRequests = async () => {
-  const userId = (await getUserFromSession()).id;
+  const userId = (await getCurrentUser()).id;
   const userRequests = db.request.findMany({
     where: { userId },
     orderBy: { createdAt: "desc" },
