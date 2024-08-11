@@ -1,5 +1,5 @@
 "use server";
-import db from "@/db/db";
+import db from "@/db";
 import { Loan } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 

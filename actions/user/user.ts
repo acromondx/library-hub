@@ -1,4 +1,4 @@
 "use server";
 
-import db from "@/db/db";
+import db from "@/db";
 import { cache } from "react";

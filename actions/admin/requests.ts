@@ -1,5 +1,5 @@
 "use server";
-import db from "@/db/db";
+import db from "@/db";
 import { RequestStatus, RequestType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
@@ -14,8 +14,6 @@ export interface IRequest {
   userName: string;
   userPicture: string;
 }
-
-
 
 export async function approveRequest({ id }: { id: string }) {
   try {

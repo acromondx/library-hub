@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { User, UserRole } from "@prisma/client";
+import { Bookmark, Loan, User, UserRole } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,7 +14,18 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface UserProfileProps {
-  user: User;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    hasChangedDefaultPassword: boolean | null;
+    profilePicture: string;
+    phoneNumber: string;
+    createdAt: Date;
+    bookmarks: Bookmark[];
+    loans: Loan[];
+    requests: Request[];
+  };
   onUpdateUser: (updatedUser: Partial<User>) => Promise<void>;
 }
 
@@ -93,9 +104,7 @@ export function UserAccountSection({ user, onUpdateUser }: UserProfileProps) {
                 <p>
                   <strong>Phone:</strong> {user.phoneNumber}
                 </p>
-                <p>
-                  <strong>Role:</strong> {user.role}
-                </p>
+
                 <p>
                   <strong>Member Since:</strong>{" "}
                   {new Date(user.createdAt).toLocaleDateString()}

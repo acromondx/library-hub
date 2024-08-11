@@ -1,5 +1,5 @@
 import "server-only";
-import db from "@/db/db";
+import db from "@/db";
 
 export type BookType = {
   id: string;

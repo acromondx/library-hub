@@ -1,5 +1,5 @@
 import "server-only";
-import db from "@/db/db";
+import db from "@/db";
 import { RequestStatus, RequestType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 

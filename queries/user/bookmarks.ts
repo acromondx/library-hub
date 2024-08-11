@@ -1,10 +1,12 @@
 import "server-only";
-import db from "@/db/db";
+import db from "@/db";
 import type { Bookmark, User } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
+import { getUserFromSession } from "@/actions/user/auth";
 
-export async function getBookmarksByUser({ userId }: { userId: string }) {
+export async function getBookmarksByUser() {
+  const userId = (await getUserFromSession()).id;
   const bookmarks = await db.bookmark.findMany({
     where: { userId },
     include: {

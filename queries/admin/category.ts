@@ -1,5 +1,5 @@
 import "server-only";
-import db from "@/db/db";
+import db from "@/db";
 import { Errors } from "@/lib/errors";
 import { AddCategorySchema } from "@/lib/schema/admin";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";

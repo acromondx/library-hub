@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import { jwtVerify, SignJWT } from "jose";
 const JWT_SECRET = process.env.JWT_SECRET as string;
 const JWT_EXPIRES_IN = "7d";
 
@@ -15,15 +15,26 @@ export const comparePassword = async (
   return await bcrypt.compare(password, hashedPassword);
 };
 
-export const generateToken = (customerId: number, role: string): string => {
-  return jwt.sign({ customerId, role }, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN,
-  });
+export const generateToken = async (
+  userId: string,
+  role: string,
+): Promise<string> => {
+  const secret = new TextEncoder().encode(JWT_SECRET);
+  const alg = "HS256";
+
+  const token = await new SignJWT({ userId, role })
+    .setProtectedHeader({ alg })
+    .setExpirationTime(JWT_EXPIRES_IN)
+    .sign(secret);
+
+  return token;
 };
 
-export const verifyToken = (token: string): any => {
+export const verifyToken = async (token: string): Promise<any> => {
   try {
-    return jwt.verify(token, JWT_SECRET);
+    const secret = new TextEncoder().encode(JWT_SECRET);
+    const { payload } = await jwtVerify(token, secret);
+    return payload;
   } catch (error) {
     throw new Error("Invalid token");
   }

@@ -1,5 +1,5 @@
 "use server";
-import db from "@/db/db";
+import db from "@/db";
 import { SubmitRequestSchema } from "@/lib/schema/user";
 import type { Author, Book, Category, Loan, RequestType } from "@prisma/client";
 import type { z } from "zod";

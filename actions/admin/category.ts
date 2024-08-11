@@ -1,6 +1,6 @@
 "use server";
 
-import db from "@/db/db";
+import db from "@/db";
 import { Errors } from "@/lib/errors";
 import { AddCategorySchema } from "@/lib/schema/admin";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
@@ -55,10 +55,6 @@ export async function updateCategory(
   revalidatePath("/admin/books/categories");
   redirect("/admin/books/categories");
 }
-
-
-
- 
 
 export async function deleteCategoryById({ id }: { id: string }) {
   try {

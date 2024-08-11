@@ -1,4 +1,4 @@
-import db from "@/db/db";
+import db from "@/db";
 import { PrismaClient } from "@prisma/client";
 import {
   startOfDay,

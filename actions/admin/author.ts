@@ -1,6 +1,6 @@
 "use server";
 
-import db from "@/db/db";
+import db from "@/db";
 import { AddAuthorSchema } from "@/lib/schema/admin";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";

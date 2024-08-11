@@ -1,6 +1,6 @@
 import { AddOrUpdateAuthorForm } from "@/components/admin/Forms/AddOrUpdateAuthorForm";
 import { BackButton } from "@/components/shared/buttons";
-import db from "@/db/db";
+import db from "@/db";
 
 export default async function Dashboard() {
   const categories = await db.author.findMany({ take: 3 });

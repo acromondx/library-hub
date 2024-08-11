@@ -1,9 +1,10 @@
 import { getBookmarksByUser } from "@/queries/user/bookmarks";
 import { getUser } from "@/queries/user/user";
 import BookmarksSection from "@/components/user/Sections/BookmarksSection";
+import { getUserFromSession } from "@/actions/user/auth";
 
 export default async function BookmarksPage() {
-  const user = await getUser();
-  const bookmarks = await getBookmarksByUser({ userId: user });
-  return <BookmarksSection userId={user} userBookmarks={bookmarks} />;
+  const user = await getUserFromSession();
+  const bookmarks = await getBookmarksByUser();
+  return <BookmarksSection userId={user.id} userBookmarks={bookmarks} />;
 }

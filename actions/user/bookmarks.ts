@@ -1,5 +1,5 @@
 "use server";
-import db from "@/db/db";
+import db from "@/db";
 import type { Bookmark, User } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
@@ -49,10 +49,6 @@ export async function removeBookmark({
   revalidatePath(`/bookmarks`);
 }
 
-
-
- 
-
 export async function isBookmark({
   userId,
   bookId,
@@ -70,9 +66,6 @@ export async function isBookmark({
   });
   return !!bookmark;
 }
-
- 
- 
 
 export async function toggleBookmark({
   userId,

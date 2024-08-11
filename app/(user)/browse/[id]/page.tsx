@@ -4,6 +4,7 @@ import { isLoanSubmitted } from "@/actions/user/loan";
 import { getUser } from "@/queries/user/user";
 import { BackButton } from "@/components/shared/buttons";
 import BookDetailsSection from "@/components/user/Sections/BookDetailsSection";
+import { getUserFromSession } from "@/actions/user/auth";
 
 interface BookDetailsPageProps {
   params: {
@@ -15,12 +16,12 @@ export default async function BookDetailsPage({
   params,
 }: BookDetailsPageProps) {
   const book = await getBookById(params.id);
-  const user = await getUser();
-  const isBookmarked = await isBookmark({ userId: user, bookId: book.id });
+  const userId = (await getUserFromSession()).id;
+  const isBookmarked = await isBookmark({ userId: userId, bookId: book.id });
 
   const isBookAvailableLoan = await isBookAvailableForLoan(params.id);
   const loanSubmitted = await isLoanSubmitted({
-    userId: user,
+    userId: userId,
     bookId: book.id,
   });
   return (
@@ -29,7 +30,7 @@ export default async function BookDetailsPage({
       <BackButton href="/books" />
       <BookDetailsSection
         book={book}
-        userId={user}
+        userId={userId}
         isBookmarkedByUser={isBookmarked}
         isLoanSubmitted={loanSubmitted}
         isBookAvailableLoan={isBookAvailableLoan}

@@ -1,6 +1,6 @@
 "use server";
 
-import db from "@/db/db";
+import db from "@/db";
 import { AddBookSchema, UpdateBookSchema } from "@/lib/schema/admin";
 import { revalidatePath } from "next/cache";
 import { notFound } from "next/navigation";

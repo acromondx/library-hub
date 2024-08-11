@@ -1,6 +1,6 @@
 "use server";
 
-import db from "@/db/db";
+import db from "@/db";
 import { hashPassword } from "@/lib/auth-utils";
 import { Errors } from "@/lib/errors";
 import {

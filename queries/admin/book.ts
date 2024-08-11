@@ -1,5 +1,5 @@
 import "server-only";
-import db from "@/db/db";
+import db from "@/db";
 
 export async function getAllBooks() {
   const books = await db.book.findMany({

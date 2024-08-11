@@ -3,4 +3,6 @@ export const Errors = {
   accountNotVerified: "account not verified",
   invalidCredentials: "invalid credentials",
   itemAlreadyExists: "item already exists",
+  itemNotFound: "item not found",
+  changeYourPassword: "change your password",
 };

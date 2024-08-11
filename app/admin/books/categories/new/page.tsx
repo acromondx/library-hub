@@ -1,7 +1,7 @@
 import { AddOrUpdateCategoryForm } from "@/components/admin/Forms/AddOrUpdateCategoryForm";
 import { DashboardHeader } from "@/components/shared/DashboardHeader";
 import { BackButton } from "@/components/shared/buttons";
-import db from "@/db/db";
+import db from "@/db";
 
 export default async function Dashboard() {
   const categories = await db.category.findMany({ take: 3 });
