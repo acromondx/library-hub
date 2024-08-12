@@ -48,9 +48,11 @@ function isProtectedRoute(pathname: string): boolean {
 
 export const config = {
   matcher: [
-    "/dashboard/:path*",
-    "/account/:path*",
     "/browse/:path*",
+    "/loans",
+    "/requests",
+    "/bookmarks",
+    "/account/:path*",
     "/auth/sign-in",
   ],
 };

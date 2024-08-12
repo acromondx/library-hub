@@ -3,10 +3,10 @@ import { sendEmailParams } from "@/types";
 
 export async function sendEmail(params: sendEmailParams) {
   const data = {
-    service_id: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string,
-    template_id: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string,
-    user_id: process.env.NEXT_PUBLIC_EMAILJS_USER_ID as string,
-    accessToken: process.env.NEXT_PUBLIC_ACCESS_TOKEN as string,
+    service_id: process.env.EMAILJS_SERVICE_ID as string,
+    template_id: process.env.EMAILJS_TEMPLATE_ID as string,
+    user_id: process.env.EMAILJS_USER_ID as string,
+    accessToken: process.env.EMAILJS_ACCESS_TOKEN as string,
     template_params: {
       ...params,
     },
