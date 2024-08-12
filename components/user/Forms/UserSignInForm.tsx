@@ -48,10 +48,11 @@ export function UserSignInForm() {
         toast.error("Invalid credentials");
       }
       if ((error as Error).message === Errors.changeYourPassword) {
-        toast.error("Please change your password");
         router.push("/auth/change-password");
+        toast.error("Please change your password");
       } else {
-        toast.error((error as Error).message);
+        toast.error("Something went wrong");
+        console.error(error);
       }
     }
   }

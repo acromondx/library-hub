@@ -42,7 +42,8 @@ export function AddOrUpdateAuthorForm({ author }: { author?: Author | null }) {
 
       toast.success("Author updated successfully.");
     } catch (error) {
-      toast.error((error as Error).message);
+      toast.error("Something went wrong");
+      console.error(error);
 
       console.log(error);
     }

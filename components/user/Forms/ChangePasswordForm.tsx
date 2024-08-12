@@ -52,7 +52,8 @@ export function ChangePasswordForm() {
       if ((error as Error).message === Errors.invalidCredentials) {
         toast.error("Invalid credentials");
       } else {
-        toast.error((error as Error).message);
+        toast.error("Something went wrong");
+        console.error(error);
       }
     }
   }

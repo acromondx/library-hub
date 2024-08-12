@@ -111,7 +111,8 @@ export function AddOrUpdateUserForm({ user }: { user?: User | null }) {
       router.refresh();
     } catch (error) {
       console.error(error);
-      toast.error((error as Error).message);
+      toast.error("Something went wrong");
+      console.error(error);
     }
   }
 
