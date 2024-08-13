@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { jwtVerify, SignJWT } from "jose";
+
 const JWT_SECRET = process.env.JWT_SECRET as string;
 const JWT_EXPIRES_IN = "7d";
 

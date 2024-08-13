@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
-import { verifyToken } from "@/lib/auth-utils"; // Adjust the path if necessary
+import { verifyToken } from "@/lib/auth-utils";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;

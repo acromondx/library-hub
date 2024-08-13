@@ -33,9 +33,6 @@ export function SubmitRequestForm({ author }: { author?: Author | null }) {
   const form = useForm<z.infer<typeof SubmitRequestSchema>>({
     mode: "onBlur",
     resolver: zodResolver(SubmitRequestSchema),
-    defaultValues: {
-      userId: "cly507n900000wcqhqfhp76j8",
-    },
   });
   const isLoading = form.formState.isLoading;
 

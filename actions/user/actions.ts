@@ -3,6 +3,7 @@ import db from "@/db";
 import { SubmitRequestSchema } from "@/lib/schema/user";
 import type { Author, Book, Category, Loan, RequestType } from "@prisma/client";
 import type { z } from "zod";
+import { getCurrentUser } from "./auth";
 
 export interface IBook {
   id: string;
@@ -42,10 +43,11 @@ export async function submitRequest(
 ) {
   const data = SubmitRequestSchema.parse(rawData);
 
+  const user = await getCurrentUser();
   try {
     await db.request.create({
       data: {
-        userId: data.userId,
+        userId: user.id,
         description: data.description,
         type: data.requestType,
       },
